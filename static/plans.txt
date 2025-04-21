@@ -1,0 +1,13 @@
+1- Make calender -- Primary :: DONE
+
+2- Change sidebar bg -- Primary :: DONE
+
+3- metals and salts for the soil? --secondary
+
+4- weather API -- Primary
+
+5- other pages -- Primary
+
+6- search -- Secondary
+
+7- notifications -- Primary

@@ -1,0 +1,54 @@
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .growth-cards {
+        grid-column: span 2;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .farmer-plan, .productive-analysis {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    .main-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-bottom: 15px;
+    }
+    
+    .main-nav a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .weather-preview {
+        display: none;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .growth-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .farmer-plan, .productive-analysis {
+        grid-column: span 1;
+    }
+}

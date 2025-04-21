@@ -1,0 +1,29 @@
+:root {
+    --primary: #4CAF50;
+    --primary-dark: #388E3C;
+    --secondary: #FF9800;
+    --text: #333;
+    --text-light: #666;
+    --bg: #f5f5f5;
+    --card-bg: #fff;
+    --sidebar-bg: #2E7D32;
+    --sidebar-text: #fff;
+    --sidebar-text-light: rgba(255, 255, 255, 0.7);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}

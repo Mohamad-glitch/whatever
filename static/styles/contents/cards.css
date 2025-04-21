@@ -1,0 +1,157 @@
+/* Main Content Styles */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h2 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-height: 120px;
+}
+
+.growth-cards {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.growth-cards .card {
+    padding: 15px;
+}
+
+.growth-cards h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.weather-extended {
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.weather-extended .weather-day {
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.weather-extended .weather-day p:first-child {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.weather-extended .weather-day p:last-child {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.weather-extended .weather-day small {
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.farmer-plan {
+    grid-column: span 2;
+}
+
+.farmer-plan h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.productive-analysis {
+    grid-column: span 2;
+}
+
+.productive-analysis h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.chart {
+    display: flex;
+    align-items: flex-end;
+    height: 150px;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.chart-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.carrot-stats h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.soil-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Default progress bar color */
+.progress::before {
+    background-color: var(--primary);
+}
+
+/* Mango-specific color states */
+.mango-progress .high-growth::before{
+    background-color: #388E3C; /* Orange */
+}
+
+.mango-progress.peak-growth::before{
+    background-color: #2E7D32; /* Dark green */
+}
+
+.mango-progress.harvest-ready::before{
+    background-color: #FF9800; /* Green */
+    animation: pulse 2s infinite;
+    
+}
