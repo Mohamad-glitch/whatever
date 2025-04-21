@@ -1,6 +1,7 @@
 from typing import Annotated, Sequence
 
 from fastapi import Depends, FastAPI, HTTPException, Query
+from pydantic import BaseModel
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
@@ -8,6 +9,10 @@ from starlette.staticfiles import StaticFiles
 from models.crop import Crop, CropCreate
 from models.farm import FarmCreate, Farm, FarmPublic
 from models.sensor import SensorCreate, Sensor
+
+class MoistureData(BaseModel):
+    percentage: float
+
 
 sql_file_name = "farm_database.db"
 sql_url = f"sqlite:///./{sql_file_name}"
@@ -147,9 +152,9 @@ def read_farm_sensor_stats(farm_name: str, session: SessionDep):
 
 
 @app.post("/getmoisture")
-async def get_moisture(percentage: float):
-    print(percentage)
-    return {"percentage":percentage}
+async def get_moisture(data: MoistureData):
+    print(data.percentage)
+    return {"percentage": data.percentage}
 
 
 
