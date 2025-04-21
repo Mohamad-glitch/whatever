@@ -163,6 +163,11 @@ def get_moisture(moisture_percentage: float):
     return {"percentage": moisture_percentage}
 
 
+@app.post("/getmoisture/{moisture_percentage}")
+def get_moisture(moisture_percentage: float):
+    print(moisture_percentage)
+    return {"percentage": moisture_percentage}
+
 
 
 
