@@ -157,6 +157,11 @@ async def get_moisture(data: MoistureData):
     return {"percentage": data.percentage}
 
 
+@app.get("/getmoisture/{moisture_percentage}")
+def get_moisture(moisture_percentage: float):
+    print(moisture_percentage)
+    return {"percentage": moisture_percentage}
+
 
 
 
