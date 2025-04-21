@@ -146,6 +146,10 @@ def read_farm_sensor_stats(farm_name: str, session: SessionDep):
 
 
 
+@app.get("/getmoisture")
+async def get_moisture(farm_name: str, percentage: float, session: Session):
+    print(percentage)
+    return {"percentage":percentage}
 
 
 
