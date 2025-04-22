@@ -49,7 +49,7 @@ def login_user(request: LoginData, session: SessionDep):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     access_token = create_access_token(data={"sub": user.email})
-    response = RedirectResponse(url="http://localhost:8000/login")  # Change to your desired URL
+    response = RedirectResponse(url="http://localhost:8000/", status_code=303)  # Change to your desired URL
     response.set_cookie(key="access_token", value=access_token)
     return response
 

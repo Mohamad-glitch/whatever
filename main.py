@@ -1,7 +1,7 @@
 import os
 from typing import Annotated, Sequence
 from routers import JWTtoken
-
+from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi import Depends, FastAPI
 from sqlmodel import Field, Session, SQLModel, create_engine
@@ -15,6 +15,7 @@ connect_args = {"check_same_thread": False}  # recommended by FastAPI docs
 
 #connecting database
 engine = create_engine(sql_url, connect_args=connect_args)
+
 
 
 #creating database
@@ -32,9 +33,19 @@ SessionDep = Annotated[Session, Depends(get_session)]
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace "" with specific origins for better security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 #Connecting To Frontend
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(farm_routs.router)
 app.include_router(user_routs.router)
 app.include_router(JWTtoken.router)
+
+
