@@ -1,3 +1,6 @@
 fastapi[all]
 uvicorn
 sqlmodel
+python-jose[cryptography]
+pyjwt
+python-multipart

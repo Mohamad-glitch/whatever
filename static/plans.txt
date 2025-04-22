@@ -1,13 +1,20 @@
-1- Make calender -- Primary :: DONE
+- chat bot -- Secondary - shlool
 
-2- Change sidebar bg -- Primary :: DONE
+- login page -- Primary (SHLOLOL)
+|- register page -- Primary
 
-3- metals and salts for the soil? --secondary
+- data storing -- Primary
 
-4- weather API -- Primary
+- search -- Secondary
 
-5- other pages -- Primary
+- notifications -- Primary :: half DONE
 
-6- search -- Secondary
+- edit confirmations -- Primary
 
-7- notifications -- Primary
+- index page
+
+|- swap the data on temp, soil moisture % for each card -- Primary 
+|-- animation entering the page
+
+- Sensors page -- Primary
+|- sensors for each card -- Primary

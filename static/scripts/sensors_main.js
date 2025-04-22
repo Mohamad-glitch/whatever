@@ -1,10 +1,7 @@
-import { setupAddCard } from './utils/add.js';
 import { initCalendar } from './utils/calender.js';
 import { loadCardsFromStorage, saveCardsToStorage } from './utils/cardTransfer.js';
-import { toggleEditMode } from './utils/edit_mode.js';
-import { fetchWeather } from './utils/weather.js';
-import { setupNotifications } from './utils/notifications.js';
-//import { simulateRealTimeData } from './utils/simulate.js';
+import { setupAddCard } from './utils/add.js';
+import { setupNotifications } from './utils/notifications.js'; // Import notifications
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize calendar
@@ -13,27 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize add card functionality
     const { createCropCard, MAX_CROPS, addCardBtn } = setupAddCard();
     
-    
-    // Set up edit button click handler
-    const editButton = document.getElementById('edit');
-    if (editButton) {
-        editButton.addEventListener('click', toggleEditMode);
-    }
-    
     // Load cards from storage
     loadCardsFromStorage(createCropCard, MAX_CROPS, addCardBtn);
     
-    fetchWeather("Irbid"); // Fetch weather data for Irbid
-    
     // Initialize notifications
     const { addNotification } = setupNotifications('noti');
-    
     // test test
-    setTimeout(() => addNotification('first notification'), 3000);
+    setTimeout(() => addNotification('first notification'), 3000);    
 
-    // Initialize data simulation
-    // simulateRealTimeData();
-    
     // Save cards before page unload
     window.addEventListener('beforeunload', saveCardsToStorage);
 });

@@ -3,19 +3,20 @@ export function initCalendar() {
     const currentMonthElement = document.getElementById('current-month');
     const prevMonthBtn = document.getElementById('prev-month');
     const nextMonthBtn = document.getElementById('next-month');
+    const eventDisplay = document.getElementById('event-display'); // Element to display events
 
     let currentDate = new Date();
 
-    // Load marked dates from localStorage
+    // Load marked dates and events from localStorage
     const markedDates = JSON.parse(localStorage.getItem('markedDates') || '{}');
+    const events = JSON.parse(localStorage.getItem('events') || '{}');
 
     function renderCalendar() {
         calendarDays.innerHTML = '';
 
-        // Format and display current month/year
+        // Format and display current month
         currentMonthElement.textContent = new Intl.DateTimeFormat('en-US', {
-            month: 'long',
-            year: 'numeric'
+            month: 'long'
         }).format(currentDate);
 
         const year = currentDate.getFullYear();
@@ -44,28 +45,39 @@ export function initCalendar() {
 
             const isToday =
                 day === today.getDate() &&
-                month === today.getMonth() &&
-                year === today.getFullYear();
+                month === today.getMonth();
 
             if (isToday) {
                 dayElement.classList.add('today');
             }
 
-            const dateKey = `${year}-${month + 1}-${day}`;
+            const dateKey = `${month + 1}-${day}`; // Use only month and day as the key
             if (markedDates[dateKey]) {
                 dayElement.classList.add('has-data');
             }
 
+            // Add click event to handle adding/viewing events
             dayElement.addEventListener('click', () => {
-                dayElement.classList.toggle('has-data');
-
-                if (dayElement.classList.contains('has-data')) {
-                    markedDates[dateKey] = true;
-                } else {
-                    delete markedDates[dateKey];
+                const eventText = prompt(
+                    `Enter an event for ${dateKey}:`,
+                    events[dateKey] || ''
+                );
+                if (eventText !== null) {
+                    if (eventText.trim() !== '') {
+                        events[dateKey] = eventText;
+                        markedDates[dateKey] = true;
+                        dayElement.classList.add('has-data');
+                    } else {
+                        delete events[dateKey];
+                        delete markedDates[dateKey];
+                        dayElement.classList.remove('has-data');
+                    }
+                    localStorage.setItem('events', JSON.stringify(events));
+                    localStorage.setItem('markedDates', JSON.stringify(markedDates));
                 }
 
-                localStorage.setItem('markedDates', JSON.stringify(markedDates));
+                // Update event display
+                updateEventDisplay(dateKey, events[dateKey]);
             });
 
             calendarDays.appendChild(dayElement);
@@ -82,6 +94,18 @@ export function initCalendar() {
                 dayElement.textContent = i;
                 calendarDays.appendChild(dayElement);
             }
+        }
+
+        // Show today's event by default
+        const todayKey = `${today.getMonth() + 1}-${today.getDate()}`;
+        updateEventDisplay(todayKey, events[todayKey]);
+    }
+
+    function updateEventDisplay(dateKey, eventText) {
+        if (eventText) {
+            eventDisplay.innerHTML = `<strong>Event for ${dateKey}:</strong> ${eventText}`;
+        } else {
+            eventDisplay.innerHTML = `<strong>No event for ${dateKey}.</strong>`;
         }
     }
 

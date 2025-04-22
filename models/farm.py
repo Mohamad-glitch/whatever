@@ -10,9 +10,11 @@ class FarmBase(SQLModel):# clint can access it
 
 class Farm(FarmBase, table=True): # this is the ORM model and not Accessible by the clint
     id: int | None =  Field(default=None, primary_key=True)
-    # Relationship to Crop
+    # Back-reference to users
+    users: List["User"] = Relationship(back_populates="farm")
+    # Relationship to Crops
     crops: List["Crop"] = Relationship(back_populates="farm")
-    # Relationship to Sensor
+    # Relationship to Sensors
     sensors: List["Sensor"] = Relationship(back_populates="farm")
 
 

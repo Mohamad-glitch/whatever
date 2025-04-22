@@ -33,6 +33,33 @@
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     min-height: 120px;
+    position: relative;
+    padding-top: 30px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    letter-spacing: 1px;
+}
+
+.card h3[contenteditable="true"] {
+    outline: none;
+    cursor: text;
+    transition: all 0.2s;
+}
+
+.card h3[contenteditable="true"]:focus {
+    border-bottom: 1px solid var(--primary) !important;
+}
+
+.btn.active {
+    background-color: var(--primary);
+    color: red;
 }
 
 .growth-cards {
@@ -49,36 +76,6 @@
 .growth-cards h3 {
     font-size: 16px;
     margin-bottom: 15px;
-    color: var(--text-light);
-}
-
-.weather-extended {
-    grid-column: span 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.weather-extended .weather-day {
-    background-color: var(--card-bg);
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.weather-extended .weather-day p:first-child {
-    font-size: 14px;
-    color: var(--text-light);
-}
-
-.weather-extended .weather-day p:last-child {
-    font-size: 24px;
-    font-weight: 500;
-    margin: 10px 0;
-}
-
-.weather-extended .weather-day small {
-    font-size: 13px;
     color: var(--text-light);
 }
 
@@ -154,4 +151,30 @@
     background-color: #FF9800; /* Green */
     animation: pulse 2s infinite;
     
+}
+
+/* Remove button styles */
+.remove-card {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 2;
+    transition: all 0.2s;
+    width: 24px;
+    height: 24px;
+    display: none; /* Hidden by default */
+    opacity: 0.8;
+    padding: 0;
+    margin: 0;
+}
+
+.remove-card:hover {
+    color: #ff0000;
+    opacity: 1;
+    transform: scale(1.1);
 }

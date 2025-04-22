@@ -1,45 +1,69 @@
+// Import required functions
+import { saveCardsToStorage } from './cardTransfer.js';
+import { disableEditMode } from './edit_mode.js';
+import { toggleEditMode } from './edit_mode.js';
 const cropTypes = [
-    { name: "Tomato"},
-    { name: "Lettuce"},
-    { name: "Strawberry"},
-    { name: "Blueberry"},
-    { name: "Potato"},
-    { name: "Carrot"}
+    { name: "Farm"}
 ];
 
-const MAX_CROPS = 8; // Maximum number of crop cards allowed
+const MAX_CROPS = 4;
+let addCardBtn;
 
 export function setupAddCard() {
-    const addCardBtn = document.getElementById('add-card');
+    addCardBtn = document.getElementById('add-card');
     const container = document.querySelector('.growth-cards');
     
+    if (!addCardBtn || !container) {
+        console.error("Could not find required elements");
+        return { createCropCard, MAX_CROPS, addCardBtn };
+    }
+
     addCardBtn.addEventListener('click', () => {
         const currentCrops = container.querySelectorAll('.card:not(.add-card)');
-        // Remove the add button when reaching full capacity
-        if(currentCrops.length + 1 == MAX_CROPS){
+        
+        if (currentCrops.length >= MAX_CROPS) {
             addCardBtn.style.display = "none";
+            return;
         }
 
         const randomCrop = cropTypes[Math.floor(Math.random() * cropTypes.length)];
-        createCropCard(randomCrop, container);
+        const newCard = createCropCard(randomCrop, container);
+        container.insertBefore(newCard, addCardBtn);
 
+        if (currentCrops.length + 1 >= MAX_CROPS) {
+            addCardBtn.style.display = "none";
+        }
+        
+        saveCardsToStorage();
     });
+
+    return { createCropCard, MAX_CROPS, addCardBtn };
 }
 
-function createCropCard(crop, container) {
-    const initialProgress = 0;
-    const cardId = `crop-${Date.now()}`;
-    
+function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.id = cardId;
+    card.id = id;
     card.innerHTML = `
-        <h3 class="fa-solid">${crop.name}</h3>
-        <div class="progress" style="--progress: ${initialProgress}%">
-            <span>${initialProgress}% Growth</span>
+        <h3 class="fas" tabindex="0">${crop.name}</h3>
+        <button class="remove-card" style="display: none">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="progress" style="--progress: ${progress}%">
+            <span>${progress}% Growth</span>
         </div>
     `;
+    disableEditMode();
     
-    // Insert before the add button
-    container.insertBefore(card, container.lastElementChild);
+    const removeBtn = card.querySelector('.remove-card');
+    removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        card.remove();
+        saveCardsToStorage();           
+        addCardBtn.style.display = "flex";
+    });
+    
+    const title = card.querySelector('h3');
+    title.focus();
+    return card;
 }
