@@ -1,18 +1,12 @@
 import os
 from typing import Annotated, Sequence
-from routers import farm_routs, user_routs, JWTtoken
+from routers import JWTtoken
 
-from dotenv import load_dotenv
-from fastapi import Depends, FastAPI, HTTPException, Query
-from sqlmodel import Field, Session, SQLModel, create_engine, select
-from starlette.responses import HTMLResponse
+
+from fastapi import Depends, FastAPI
+from sqlmodel import Field, Session, SQLModel, create_engine
 from starlette.staticfiles import StaticFiles
 from routers import farm_routs, user_routs
-
-from models.crop import Crop, CropCreate
-from models.farm import FarmCreate, Farm, FarmPublic
-from models.sensor import SensorCreate, Sensor
-from models.user import User, UserPublic, UserCreate
 
 
 sql_file_name = "farm_database.db"

@@ -4,10 +4,9 @@ from fastapi import APIRouter
 from typing import Annotated
 
 from fastapi import Depends, HTTPException
+from pydantic import BaseModel, Field
 from sqlmodel import Session, SQLModel, create_engine, select
-
-
-
+from starlette.responses import RedirectResponse
 
 from models.farm import Farm
 from models.user import UserCreate, User, UserPublic, login
@@ -21,6 +20,10 @@ connect_args = {"check_same_thread": False} # recommended by FastAPI docs
 
 #connecting database
 engine = create_engine(sql_url, connect_args=connect_args)
+
+class LoginData(BaseModel):
+    email: str = Field(..., alias="user_email")
+    password: str
 
 #creating database
 def create_db_and_tables():
@@ -40,13 +43,15 @@ def on_startup():
     create_db_and_tables()
 
 @router.post("/login")
-def login_user(request: login, session: SessionDep):
+def login_user(request: LoginData, session: SessionDep):
     user = session.get(User, request.email)
     if not user or user.password != request.password:
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     access_token = create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer"}
+    response = RedirectResponse(url="http://localhost:8000/login")  # Change to your desired URL
+    response.set_cookie(key="access_token", value=access_token)
+    return response
 
 #create new user
 @router.post("/register", response_model=UserPublic)
@@ -94,4 +99,6 @@ def show_user(user_email:str, session: SessionDep):
 
     return user_public
 
-
+@router.get("/some-endpoint")
+def get_data():
+    return {"message": "Hello, world!"}

@@ -2,15 +2,13 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt
-from fastapi import Depends, FastAPI, HTTPException, status, APIRouter, Form
+from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError
-from jwt.exceptions import InvalidTokenError
 from pydantic import BaseModel
-from pyexpat.errors import messages
 from sqlalchemy import create_engine
 from sqlmodel import select
-from sqlmodel import Field, Session
+from sqlmodel import Session
 
 from models.user import User
 
