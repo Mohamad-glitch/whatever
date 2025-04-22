@@ -86,7 +86,7 @@ def register_user(user: UserCreate, session: SessionDep):
     if db_user.farm:
         response.farm_name = db_user.farm.name
 
-    return {"message":"done!!!!!"}
+    return RedirectResponse(url="https://whatever-qw7l.onrender.com/login", status_code=303)
 
 @router.get("/show_user")
 def show_user(user_email:str, session: SessionDep):
