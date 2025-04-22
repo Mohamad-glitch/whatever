@@ -54,7 +54,7 @@ def login_user(request: LoginData, session: SessionDep):
     return response
 
 #create new user
-@router.post("/register", response_model=UserPublic)
+@router.post("/register")
 def register_user(user: UserCreate, session: SessionDep):
     #check if the user already exiset
     check_user = session.exec(select(User).where(User.email == user.email)).first()
