@@ -42,7 +42,7 @@ SessionDep = Annotated[Session, Depends(get_session)]
 def on_startup():
     create_db_and_tables()
 
-@router.post("/login")
+@router.post("/login_1")
 def login_user(request: LoginData, session: SessionDep):
     user = session.get(User, request.email)
     if not user or user.password != request.password:
