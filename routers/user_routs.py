@@ -86,7 +86,7 @@ def register_user(user: UserCreate, session: SessionDep):
     if db_user.farm:
         response.farm_name = db_user.farm.name
 
-    return "welcome"
+    return {"message":"done!!!!!"}
 
 @router.get("/show_user")
 def show_user(user_email:str, session: SessionDep):
