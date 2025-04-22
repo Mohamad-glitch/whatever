@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlmodel import Session, SQLModel, create_engine, select
-from starlette.responses import RedirectResponse, HTMLResponse
+from starlette.responses import RedirectResponse, HTMLResponse, JSONResponse
 
 from models.farm import Farm
 from models.user import UserCreate, User, UserPublic, login
@@ -49,8 +49,8 @@ def login_user(request: LoginData, session: SessionDep):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     access_token = create_access_token(data={"sub": user.email})
-    response = RedirectResponse(url="https://whatever-qw7l.onrender.com/", status_code=303)  # Change to your desired URL
-    response.set_cookie(key="access_token", value=access_token)
+    response = JSONResponse(content={"message": "Login successful", "token": access_token})
+    response.set_cookie(key="access_token", value=access_token, httponly=True)
     return response
 
 @router.get("/login", response_class=HTMLResponse)
