@@ -4,30 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938a7275-0548-4240-b9fa-8f4e5500341e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/whatever.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/farm_database.db" beforeDir="false" afterPath="$PROJECT_DIR$/farm_database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/farm.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/farm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/sensor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/render.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/media/some.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plans.txt" beforeDir="false" afterPath="$PROJECT_DIR$/static/plans.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/add.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/calender.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/calender.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/contents/cards.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/cards.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/contents/multi_media.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/multi_media.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/contents/sidebar.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/sidebar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/utlis.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/utlis.css" afterDir="false" />
-    </list>
+    <list default="true" id="938a7275-0548-4240-b9fa-8f4e5500341e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -117,5 +94,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/graduation_project$graduation_project.coverage" NAME="graduation-project Coverage Results" MODIFIED="1745312315769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/whatever$graduation_project.coverage" NAME="graduation-project Coverage Results" MODIFIED="1745313176696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
