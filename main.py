@@ -14,7 +14,7 @@ from models.crop import Crop, CropCreate
 from models.farm import FarmCreate, Farm, FarmPublic
 from models.sensor import SensorCreate, Sensor
 from models.user import User, UserPublic, UserCreate
-import openai
+
 
 sql_file_name = "farm_database.db"
 sql_url = f"sqlite:///./{sql_file_name}"
