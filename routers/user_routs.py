@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlmodel import Session, SQLModel, create_engine, select
-from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse, HTMLResponse
 
 from models.farm import Farm
 from models.user import UserCreate, User, UserPublic, login
@@ -52,6 +52,12 @@ def login_user(request: LoginData, session: SessionDep):
     response = RedirectResponse(url="https://whatever-qw7l.onrender.com/", status_code=303)  # Change to your desired URL
     response.set_cookie(key="access_token", value=access_token)
     return response
+
+@router.get("/login", response_class=HTMLResponse)
+def login():
+    return HTMLResponse(content=open("static/login.html").read())
+
+
 
 #create new user
 @router.post("/register")
