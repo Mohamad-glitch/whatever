@@ -12,7 +12,7 @@ export function setupAddCard() {
     const container = document.querySelector('.growth-cards');
     const cropNameInput = document.getElementById('crop-name-input'); // Input for crop name
 
-    if (!addCardBtn || !container || !cropNameInput) {
+    if (!addCardBtn || !container) {
         console.error("Could not find required elements");
         return { createCropCard, MAX_CROPS, addCardBtn };
     }
