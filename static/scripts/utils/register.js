@@ -38,6 +38,5 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred. Please try again.');
     }
 });

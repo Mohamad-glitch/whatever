@@ -55,10 +55,4 @@ async def get_index():
     """Show Home Page."""
     return HTMLResponse(content=open("static/index.html").read())
 
-@app.get("/register", response_class=HTMLResponse)
-async def register():
-    """Register User."""
-    return HTMLResponse(content=open("static/register.html").read())
-
-
 

@@ -2,10 +2,10 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     console.log("Login form submitted");
 
-    // const email = document.getElementById('email').value;
-    // const passkey = document.getElementById('password').value;
-    const email = "email_11@malik";
-    const passkey = "123";
+    const email = document.getElementById('email').value;
+    const passkey = document.getElementById('password').value;
+    // const email = "email_11@malik";
+    // const passkey = "123";
     const data = {
         user_email: email,
         password: passkey
@@ -16,7 +16,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data) // Ensure the body is sent as JSON
+            body: JSON.stringif (data) // Ensure the body is sent as JSON
         });
 
         console.log('Response status:', response.status);
