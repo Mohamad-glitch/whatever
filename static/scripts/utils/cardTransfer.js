@@ -67,10 +67,8 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
     isLoadingFromStorage = true;
 
     // Clear existing cards except add button
-    const existingCards = container.querySelectorAll('.growth-cards .card:not(.add-card)');
-    existingCards.forEach(card => {
-        card.remove()
-    });
+    const existingCards = container.querySelectorAll('.card:not(.add-card)');
+    existingCards.forEach(card => card.remove());
 
 
     // Fetch cards from the backend
