@@ -16,7 +16,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringif (data) // Ensure the body is sent as JSON
+            body: JSON.stringify(data) // Ensure the body is sent as JSON
         });
 
         console.log('Response status:', response.status);
