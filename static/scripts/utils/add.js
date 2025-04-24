@@ -1,7 +1,7 @@
 // Import required functions
 import { saveCardsToStorage } from './cardTransfer.js';
 const cropTypes = [
-    { name: "Farm"}
+    { name: "kys"}
 ];
 
 export const MAX_CROPS = 4; // Ensure MAX_CROPS is exported
