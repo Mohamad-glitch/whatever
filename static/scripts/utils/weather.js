@@ -1,4 +1,4 @@
-const API_KEY = "";
+const API_KEY = "25f3e1edd5723516d5a24302fd21f7e6";
 const API_URL = "https://api.openweathermap.org/data/2.5/forecast";
 
 export async function fetchWeather(city = "Irbid") {
@@ -70,13 +70,13 @@ function getDayNightTemperatures(weatherList, targetDate, timezoneOffset) {
     const dayStart = new Date(localDate);
     dayStart.setHours(12, 0, 0, 0);
     const dayEnd = new Date(localDate);
-    dayEnd.setHours(21, 0, 0, 0);
+    dayEnd.setHours(18, 0, 0, 0);
 
     const nightStart = new Date(localDate);
     nightStart.setHours(24, 0, 0, 0);
     const nightEnd = new Date(localDate);
     nightEnd.setDate(localDate.getDate() + 1); // Move to next day for night
-    nightEnd.setHours(0, 0, 0, 0);
+    nightEnd.setHours(12, 0, 0, 0);
 
     // Find all data points within these ranges
     const dayData = weatherList.filter(item => {

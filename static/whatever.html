@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body style="background-color: #333;">
+    <form method="POST" action="https://whatever-qw7l.onrender.com/login_1">
+            <input type="email" id="email" placeholder="Enter your email">
+            <input type="password" id="password" placeholder="Enter your password">
+        <button type="submit" class="login-btn">Login</button>
+
+
+    </form>
+    <script>
+       const data = {
+           user_email: "email_11@malik",  // Use the alias defined in the Pydantic model
+           password: "123"
+       };
+
+       fetch('https://whatever-qw7l.onrender.com/login_1', { // Ensure the correct URL
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify(data) // Ensure the body is sent as JSON
+       })
+       .then(async (response) => {
+           console.log('Response status:', response.status);
+
+           if (!response.ok) {
+               const errorText = await response.text();
+               console.error('Error response:', errorText);
+               throw new Error(`HTTP error! Status: ${response.status}`);
+           }
+
+           return response.json();
+       })
+       .then(data => {
+           console.log('Success:', data);
+       })
+       .catch((error) => {
+           console.error('Error:', error);
+       });
+    </script>
+</body>
+</html>

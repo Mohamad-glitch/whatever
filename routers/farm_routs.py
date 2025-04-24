@@ -1,18 +1,19 @@
-from fastapi import APIRouter
 from typing import Annotated
 
+from fastapi import APIRouter
 from fastapi import Depends, HTTPException
 from sqlmodel import Session, SQLModel, create_engine, select
-from starlette.responses import HTMLResponse
-from routers import farm_routs, user_routs  # And these import JWTtoken
-import models
-from models.user import User
+
 from models.crop import Crop, CropCreate
-from models.farm import FarmCreate, Farm, FarmPublic
+from models.farm import Farm, FarmPublic
 from models.sensor import SensorCreate, Sensor
+from models.user import User
 from routers.JWTtoken import get_current_user
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/farms",
+    tags=["farm"]
+)
 
 sql_file_name = "farm_database.db"
 sql_url = f"sqlite:///./{sql_file_name}"
@@ -37,10 +38,6 @@ def get_session():
 SessionDep = Annotated[Session, Depends(get_session)]
 
 
-@router.get("/", response_class=HTMLResponse)
-async def get_index():
-    return HTMLResponse(content=open("static/index.html").read())
-
 
 # create the database on starting app startup
 @router.on_event("startup")
@@ -48,16 +45,7 @@ def on_startup():
     create_db_and_tables()
 
 
-@router.post("/farm", tags=["farm"])
-def create_farm(farm: FarmCreate, session: SessionDep):
-    """Create New Farm"""
-    db_farm = Farm.model_validate(farm)
-    session.add(db_farm)
-    session.commit()
-    session.refresh(db_farm)
-    return db_farm
-
-@router.get("/farm", tags=["farm"])
+@router.get("/read_all")
 def read_farm(session: SessionDep):
     """Get All Farms In DB"""
     farms = session.exec(select(Farm)).all()
@@ -65,35 +53,36 @@ def read_farm(session: SessionDep):
 
 
 #to add authentication use this in the function  current_user: User = Depends(get_current_user)
-@router.get("/farm/{farm_name}", response_model=FarmPublic, tags=["farm"])
-def read_farm(farm_name: str, session:SessionDep, current_user: User = Depends(get_current_user)) -> Farm:
-    """Get Farm By Name """
-    statement = select(Farm).where(Farm.name == farm_name)
+@router.get("/", response_model=FarmPublic)
+def read_farm(session: SessionDep, current_user: User = Depends(get_current_user)) -> Farm:
+    """Get the current user's farm"""
+    farm_name = current_user.farm_id  # assumes 'farm_name' is a field on the User model
+
+    statement = select(Farm).where(Farm.id == farm_name)
     farm = session.exec(statement).first()
     if not farm:
         raise HTTPException(status_code=404, detail="Farm not found")
 
     return farm
 
-@router.get("/farm/{farm_name}/crops", tags=["farm"])
-def read_farm_crops(farm_name: str, session: SessionDep):
+
+@router.get("/crops")
+def read_farm_crops(session: SessionDep, current_user: User = Depends(get_current_user)):
     """Get Crops Of Farm """
-    # Step 1: Get the farm by name
-    farm = session.exec(select(Farm).where(Farm.name == farm_name)).first()
-    if not farm:
-        raise HTTPException(status_code=404, detail="Farm not found")
+    farm_id = current_user.farm_id
 
     # Step 2: Get the crops linked to this farm
-    crops = session.exec(select(Crop).where(Crop.farm_id == farm.id)).all()
+    crops = session.exec(select(Crop).where(Crop.farm_id == farm_id)).all()
     return crops
 
 
-@router.post("/farm/{farm_name}/crops", tags=["farm"])
-def create_crops(crops: CropCreate, session: SessionDep, farm_name: str):
+@router.post("/crops")
+def create_crops(crops: CropCreate, session: SessionDep, current_user: User = Depends(get_current_user)):
     """Create Crops Of Farm """
 
+    farm_id = current_user.farm_id
     # Find the farm by name
-    farm = session.exec(select(Farm).where(Farm.name == farm_name)).first()
+    farm = session.exec(select(Farm).where(Farm.id == farm_id)).first()
     if not farm:
         raise HTTPException(status_code=404, detail="Farm not found")
 
@@ -106,9 +95,12 @@ def create_crops(crops: CropCreate, session: SessionDep, farm_name: str):
 
     return db_crop
 
-@router.get("/farm/{farm_name}/farmCrops", tags=["farm"])
-def read_farm_allcrops(farm_name: str, session: SessionDep):
-    farm = session.exec(select(Farm).where(Farm.name == farm_name)).first()
+@router.get("/farmCrops")
+def read_farm_all_crops(session: SessionDep, current_user: User = Depends(get_current_user)):
+    """Get All Crops Of Farm """
+
+    farm_id = current_user.farm_id
+    farm = session.exec(select(Farm).where(Farm.id == farm_id)).first()
     if not farm:
         raise HTTPException(status_code=404, detail="Farm not found")
 
@@ -117,16 +109,13 @@ def read_farm_allcrops(farm_name: str, session: SessionDep):
     return farm_crops
 
 
-@router.post("/farm/{farm_name}/sensor", tags=["farm"])
-def create_sensor_data(sensor_data: SensorCreate, session: SessionDep, farm_name: str):
+@router.post("/sensor")
+def create_sensor_data(sensor_data: SensorCreate, session: SessionDep, current_user: User = Depends(get_current_user)):
     """Create a new sensor reading for a specific farm."""
 
-    farm = session.exec(select(Farm).where(Farm.name == farm_name)).first()
-    if not farm:
-        raise HTTPException(status_code=404, detail="Farm not found")
-
+    farm_id = current_user.farm_id
     # Create Sensor instance linked to farm
-    sensor = Sensor(**sensor_data.dict(), farm_id=farm.id)
+    sensor = Sensor(**sensor_data.dict(), farm_id=farm_id)
 
     session.add(sensor)
     session.commit()
@@ -136,13 +125,11 @@ def create_sensor_data(sensor_data: SensorCreate, session: SessionDep, farm_name
 
 
 
-@router.get("/farm/{farm_name}/sensorStats", tags=["farm"])
-def read_farm_sensor_stats(farm_name: str, session: SessionDep):
-    farm = session.exec(select(Farm).where(Farm.name == farm_name)).first()
-    if not farm:
-        raise HTTPException(status_code=404, detail="Farm not found")
+@router.get("/sensorStats")
+def read_farm_sensor_stats(session: SessionDep, current_user: User = Depends(get_current_user)):
+    """Read sensor Stats for a specific farm."""
+    farm_id = current_user.farm_id
 
-
-    farm_sensor = session.exec(select(Sensor).where(Sensor.farm_id == farm.id)).all()
+    farm_sensor = session.exec(select(Sensor).where(Sensor.farm_id == farm_id)).all()
     return farm_sensor
 

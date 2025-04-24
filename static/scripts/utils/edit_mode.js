@@ -1,70 +1,82 @@
 import { saveCardsToStorage } from './cardTransfer.js';
 
 let isEditMode = false;
-const MAX_NAME_LENGTH = 20; // Maximum allowed characters
+const MAX_NAME_LENGTH = 20;
+let originalTitles = [];
+let deletedCards = []; // Store deleted cards during edit mode
 
 export function toggleEditMode() {
-    isEditMode = !isEditMode;
-    const removeButtons = document.querySelectorAll('.remove-card');
     const cropTitles = document.querySelectorAll('.growth-cards .card:not(.add-card) h3');
-    
-    // Toggle remove buttons visibility
-    removeButtons.forEach(button => {
-        button.style.display = isEditMode ? "block" : "none";
-    });
+    const addCardBtn = document.getElementById('add-card');
 
-    // Remove existing event listeners first to avoid duplicates
-    cropTitles.forEach(title => {
-        title.removeEventListener('input', enforceCharacterLimit);
-        title.removeEventListener('keydown', preventNewlines);
-    });
+    if (!isEditMode) {
+        // Entering edit mode
+        isEditMode = true;
 
-    // Make card titles editable
-    cropTitles.forEach(title => {
-        if (isEditMode) {
-            // Enable editing with character limit
+        // Store original titles and deleted cards
+        originalTitles = Array.from(cropTitles).map(title => title.textContent);
+        deletedCards = [];
+
+        cropTitles.forEach(title => {
             title.contentEditable = true;
             title.style.borderBottom = "1px dashed white";
             title.style.paddingBottom = "2px";
             title.style.textDecoration = "underline";
-            
-            // Add input handler for character limit
             title.addEventListener('input', enforceCharacterLimit);
             title.addEventListener('keydown', preventNewlines);
-            
-        } else {
-            // Disable editing and remove handlers
-            title.contentEditable = false;
-            title.style.borderBottom = "none";
-            title.style.paddingBottom = "0";
-            title.style.textDecoration = "none";
-            
-            // Save all card data when exiting edit mode
-            saveCardsToStorage();
+        });
+
+        // Show remove buttons
+        document.querySelectorAll('.remove-card').forEach(button => {
+            button.style.display = "block";
+            button.addEventListener('click', handleCardRemoval);
+        });
+
+    } else {
+        // Attempting to exit edit mode — confirm with user
+        const confirmed = confirm("Confirm changes to crop names?");
+        if (!confirmed) {
+            // Restore original titles and deleted cards
+            cropTitles.forEach((title, i) => {
+                title.textContent = originalTitles[i];
+            });
+
+            deletedCards.forEach(card => {
+                card.style.display = "block"; // Restore the card's visibility
+                const container = document.querySelector('.growth-cards');
+                container.insertBefore(card, addCardBtn);
+            });
+
+            // Handle add button visibility
+            if (deletedCards.length + cropTitles.length < MAX_CROPS) {
+                addCardBtn.style.display = "flex";
+            }
+
+            // Just disable edit mode visuals
+            disableEditMode(false); // false = don't save
+            return;
         }
-    });
+
+        // Proceed with save
+        disableEditMode(true); // true = do save
+    }
 
     // Update edit button appearance
     const editButton = document.getElementById('edit');
     if (editButton) {
         editButton.classList.toggle('active', isEditMode);
-        editButton.innerHTML = isEditMode ? 
-            '<i class="fas fa-check"></i>' : 
+        editButton.innerHTML = isEditMode ?
+            '<i class="fas fa-check"></i>' :
             '<i class="fas fa-edit"></i>';
     }
 }
 
-export function disableEditMode() {
+export function disableEditMode(save = true) {
     isEditMode = false;
-    const removeButtons = document.querySelectorAll('.remove-card');
+
     const cropTitles = document.querySelectorAll('.growth-cards .card:not(.add-card) h3');
+    const removeButtons = document.querySelectorAll('.remove-card');
 
-    // Hide remove buttons
-    removeButtons.forEach(button => {
-        button.style.display = "none";
-    });
-
-    // Remove event listeners and disable editing
     cropTitles.forEach(title => {
         title.removeEventListener('input', enforceCharacterLimit);
         title.removeEventListener('keydown', preventNewlines);
@@ -74,10 +86,15 @@ export function disableEditMode() {
         title.style.textDecoration = "none";
     });
 
-    // Save all card data when disabling edit mode
-    saveCardsToStorage();
+    removeButtons.forEach(button => {
+        button.style.display = "none";
+    });
 
-    // Update edit button appearance
+    if (save) {
+        saveCardsToStorage();
+    }
+
+    // Update edit button
     const editButton = document.getElementById('edit');
     if (editButton) {
         editButton.classList.remove('active');
@@ -89,28 +106,26 @@ export function disableEditMode() {
 function enforceCharacterLimit(e) {
     if (this.textContent.length > MAX_NAME_LENGTH) {
         this.textContent = this.textContent.substring(0, MAX_NAME_LENGTH);
-        
-        // Move cursor to end
+
         const range = document.createRange();
         range.selectNodeContents(this);
         range.collapse(false);
         const selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
-        
-        // Optional: Show temporary warning
+
         showCharacterLimitWarning(this);
     }
 }
 
-// Prevent newlines/returns
+// Prevent newlines
 function preventNewlines(e) {
     if (e.key === 'Enter') {
         e.preventDefault();
     }
 }
 
-// Show temporary warning
+// Show warning for character limit
 function showCharacterLimitWarning(element) {
     const warning = document.createElement('span');
     warning.textContent = 'Max 20 characters';
@@ -124,10 +139,16 @@ function showCharacterLimitWarning(element) {
         margin-top: 5px;
         z-index: 100;
     `;
-    
+
     element.parentNode.appendChild(warning);
-    
+
     setTimeout(() => {
         warning.remove();
     }, 2000);
+}
+
+function handleCardRemoval(e) {
+    const card = e.target.closest('.card');
+    deletedCards.push(card); // Save the card for potential restoration
+    card.style.display = "none"; // Temporarily hide the card instead of removing it
 }

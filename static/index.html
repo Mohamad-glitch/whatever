@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/static/styles/contents/cards.css">
     <link rel="stylesheet" href="/static/styles/contents/multi_media.css">
     <link rel="stylesheet" href="/static/styles/contents/weather.css">
+    <link rel="stylesheet" href="/static/styles/contents/loading.css">
+
     <!-- Fonst/SVGs Imports -->
         <link  rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
         <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -20,6 +22,7 @@
 </head>
 
 <body>
+    <!-- Loading Screen -->
     <div class="dashboard">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -72,13 +75,11 @@
                 <h2>Overview</h2>
                 <div class="actions">
                     <button class="btn" id="edit"><i class="fas fa-edit"></i></button>
-                    <button class="btn" id="noti">
-                        <i class="fas fa-bell"></i>
-                    </button>
+                    <button class="btn" id="confirm-edit" style="display: none;"><i class="fas fa-check-circle"></i></button>
+                    <button class="btn" id="noti"><i class="fas fa-bell"></i></button>
                     <button class="btn" id="settings"><i class="fas fa-cog"></i></button>
                 </div>
             </div>
-            
             <div class="dashboard-grid">
                 <!-- Growth Cards -->
                 <div class="growth-cards" >
@@ -107,7 +108,7 @@
                             <span>94% Growth</span>
                         </div>
                     </div> -->
-                    
+
                     <div class="add-card" id="add-card">
                         <div class="add-card-content">
                             <i class="fas fa-plus"></i>
@@ -185,6 +186,8 @@
             </div>
         </main>
     </div>
+    <canvas id="canvas"></canvas>
+
     <script type="module" src="/static/scripts/main.js"></script>
 
 

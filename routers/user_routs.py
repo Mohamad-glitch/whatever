@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from fastapi import APIRouter
 from typing import Annotated
 
@@ -9,8 +7,8 @@ from sqlmodel import Session, SQLModel, create_engine, select
 from starlette.responses import RedirectResponse, HTMLResponse, JSONResponse
 
 from models.farm import Farm
-from models.user import UserCreate, User, UserPublic, login
-from routers.JWTtoken import Token, create_access_token
+from models.user import UserCreate, User, UserPublic
+from routers.JWTtoken import create_access_token
 
 router = APIRouter(tags=["users"])
 

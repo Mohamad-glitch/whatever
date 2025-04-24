@@ -1,12 +1,10 @@
 // Import required functions
 import { saveCardsToStorage } from './cardTransfer.js';
-import { disableEditMode } from './edit_mode.js';
-import { toggleEditMode } from './edit_mode.js';
 const cropTypes = [
     { name: "Farm"}
 ];
 
-const MAX_CROPS = 4;
+export const MAX_CROPS = 4; // Ensure MAX_CROPS is exported
 let addCardBtn;
 
 export function setupAddCard() {
@@ -45,7 +43,7 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
     card.className = 'card';
     card.id = id;
     card.innerHTML = `
-        <h3 class="fas" tabindex="0">${crop.name}</h3>
+        <h3 class="fas">${crop.name}</h3>
         <button class="remove-card" style="display: none">
             <i class="fas fa-times"></i>
         </button>
@@ -53,14 +51,19 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
             <span>${progress}% Growth</span>
         </div>
     `;
-    disableEditMode();
     
     const removeBtn = card.querySelector('.remove-card');
     removeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        card.remove();
-        saveCardsToStorage();           
-        addCardBtn.style.display = "flex";
+        
+        if (confirm('Are you sure you want to remove this card?')) {
+            card.remove();
+            const currentCrops = container.querySelectorAll('.card:not(.add-card)');
+            if (currentCrops.length < MAX_CROPS) {
+                addCardBtn.style.display = "flex";
+            }
+            saveCardsToStorage();
+        }
     });
     
     const title = card.querySelector('h3');

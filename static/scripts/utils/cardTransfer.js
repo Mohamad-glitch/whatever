@@ -1,4 +1,8 @@
+let isLoadingFromStorage = false;
+
 export function saveCardsToStorage() {
+    if (isLoadingFromStorage) return;
+    
     const container = document.querySelector('.growth-cards');
     if (!container) return;
     
@@ -21,6 +25,9 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
     
     const savedCards = JSON.parse(localStorage.getItem('savedCards')) || [];
     
+    // Flag we're loading
+    isLoadingFromStorage = true;
+    
     // Clear existing cards except add button
     const existingCards = container.querySelectorAll('.card:not(.add-card)');
     existingCards.forEach(card => card.remove());
@@ -37,6 +44,9 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
             );
             container.insertBefore(card, container.lastElementChild);
         });
+    
+    // Done loading
+    isLoadingFromStorage = false;
     
     // Update add button visibility
     if (addCardBtn) {

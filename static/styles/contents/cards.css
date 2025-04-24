@@ -138,20 +138,20 @@
     background-color: var(--primary);
 }
 
-/* Mango-specific color states */
+/* Mango-specific color states
 .mango-progress .high-growth::before{
-    background-color: #388E3C; /* Orange */
+    background-color: #388E3C;
 }
 
 .mango-progress.peak-growth::before{
-    background-color: #2E7D32; /* Dark green */
+    background-color: #2E7D32; 
 }
 
 .mango-progress.harvest-ready::before{
-    background-color: #FF9800; /* Green */
+    background-color: #FF9800;
     animation: pulse 2s infinite;
     
-}
+} */
 
 /* Remove button styles */
 .remove-card {
