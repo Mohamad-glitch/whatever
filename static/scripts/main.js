@@ -9,7 +9,7 @@ import { setupNotifications } from './utils/notifications.js';
 import { setupInfoCard } from './utils/info.js';
 
 treeAnimation();
-const token = localStorage(authToken); // Replace with your actual JWT
+const token = localStorage.getItem("authToken"); // Replace with your actual JWT
 
 fetch("https://whatever-qw7l.onrender.com/farms/", {
   method: "GET", 
