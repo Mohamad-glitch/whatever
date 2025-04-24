@@ -19,8 +19,8 @@ export function treeAnimation() {
 
     const tree = new Tree("#tree-canvas");
 
-    const fadeOutDuration = 0; // 1 second fade out
-    const totalDisplayDuration = 0; // 5 seconds total
+    const fadeOutDuration = 0; // 1 MILI second fade out
+    const totalDisplayDuration = 0; // 5 MILI seconds total
 
     setTimeout(() => {
         wrapper.style.transition = `opacity ${fadeOutDuration}ms ease`;
