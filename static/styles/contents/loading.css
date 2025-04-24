@@ -1,5 +1,5 @@
 .dashboard{
-opacity: 0;
+opacity: 1;
 transition: opacity 0.5s ease-in;
 z-index: 0;
 position: relative;
