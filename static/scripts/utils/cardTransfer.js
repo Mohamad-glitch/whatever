@@ -1,23 +1,64 @@
 let isLoadingFromStorage = false;
 
-export function saveCardsToStorage() {
+export async function saveCardsToStorage() {
     if (isLoadingFromStorage) return;
-    
+
     const container = document.querySelector('.growth-cards');
     if (!container) return;
-    
+
     const cards = Array.from(container.querySelectorAll('.card:not(.add-card)'));
     const cardsData = cards.map(card => {
         return {
             id: card.id,
-            name: card.querySelector('h3').textContent,
+            crop: card.querySelector('h3').textContent,
             progress: parseInt(card.querySelector('.progress span').textContent) || 0,
             timestamp: parseInt(card.id.split('-')[1]) || Date.now()
         };
     });
-    
+
+    // Save locally
     localStorage.setItem('savedCards', JSON.stringify(cardsData));
+
+    const token = localStorage.getItem('authToken');
+
+    // Send each card to the backend
+    for (const card of cardsData) {
+        const data = {
+            name: card.crop,
+            growth_percent: card.progress,
+            harvest_ready: false
+        };
+
+        try {
+            const response = await fetch('https://whatever-qw7l.onrender.com/farms/crops', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+
+            console.log('Response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const responseData = await response.json();
+            console.log('Success:', responseData);
+
+        } catch (error) {
+            console.error('Error sending card data:', error);
+        }
+    }
+
+    // Optional: redirect after saving all
+    // window.location.href = "https://whatever-qw7l.onrender.com/";
 }
+
 
 export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
     const container = document.querySelector('.growth-cards');
