@@ -16,9 +16,6 @@ export async function saveCardsToStorage() {
         };
     });
 
-    // Save locally
-    localStorage.setItem('savedCards', JSON.stringify(cardsData));
-
     const token = localStorage.getItem('authToken');
 
     // Send each card to the backend
@@ -64,7 +61,7 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
     const container = document.querySelector('.growth-cards');
     if (!container) return;
 
-    const savedCards = JSON.parse(localStorage.getItem('savedCards')) || [];
+    const token = localStorage.getItem('authToken');
 
     // Flag we're loading
     isLoadingFromStorage = true;
@@ -73,24 +70,43 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
     const existingCards = container.querySelectorAll('.card:not(.add-card)');
     existingCards.forEach(card => card.remove());
 
-    // Load cards in original order
-    savedCards
-        .sort((a, b) => a.timestamp - b.timestamp)
-        .forEach(cardData => {
-            const card = createCropCard(
-                { name: cardData.name },
-                container,
-                cardData.id,
-                cardData.progress
-            );
-            container.insertBefore(card, container.lastElementChild);
+    // Fetch cards from the backend
+    fetch('https://whatever-qw7l.onrender.com/farms/crops', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(cardsData => {
+            // Load cards in original order
+            cardsData
+                .sort((a, b) => a.timestamp - b.timestamp)
+                .forEach(cardData => {
+                    const card = createCropCard(
+                        { name: cardData.name },
+                        container,
+                        cardData.id,
+                        cardData.growth_percent
+                    );
+                    container.insertBefore(card, container.lastElementChild);
+                });
+
+            // Update add button visibility
+            if (addCardBtn) {
+                addCardBtn.style.display = cardsData.length >= maxCrops ? "none" : "flex";
+            }
+        })
+        .catch(error => {
+            console.error('Error loading cards from backend:', error);
+        })
+        .finally(() => {
+            // Done loading
+            isLoadingFromStorage = false;
         });
-
-    // Done loading
-    isLoadingFromStorage = false;
-
-    // Update add button visibility
-    if (addCardBtn) {
-        addCardBtn.style.display = savedCards.length >= maxCrops ? "none" : "flex";
-    }
 }
