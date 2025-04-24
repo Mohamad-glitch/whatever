@@ -30,7 +30,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         const responseData = await response.json();
         console.log('Success:', responseData);
 
-        window.location.href = "index.html";
+        window.location.href = "https://whatever-qw7l.onrender.com/";
     } catch (error) {
         console.error('Error:', error);
     }
