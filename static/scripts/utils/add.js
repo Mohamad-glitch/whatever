@@ -1,7 +1,7 @@
 // Import required functions
 import { saveCardsToStorage } from './cardTransfer.js';
 const cropTypes = [
-    { name: "kys"}
+    { name: "Crops"}
 ];
 
 export const MAX_CROPS = 4; // Ensure MAX_CROPS is exported
@@ -10,23 +10,31 @@ let addCardBtn;
 export function setupAddCard() {
     addCardBtn = document.getElementById('add-card');
     const container = document.querySelector('.growth-cards');
-    
-    if (!addCardBtn || !container) {
+    const cropNameInput = document.getElementById('crop-name-input'); // Input for crop name
+
+    if (!addCardBtn || !container || !cropNameInput) {
         console.error("Could not find required elements");
         return { createCropCard, MAX_CROPS, addCardBtn };
     }
 
     addCardBtn.addEventListener('click', () => {
         const currentCrops = container.querySelectorAll('.card:not(.add-card)');
-        
+
         if (currentCrops.length >= MAX_CROPS) {
             addCardBtn.style.display = "none";
             return;
         }
 
-        const randomCrop = cropTypes[Math.floor(Math.random() * cropTypes.length)];
-        const newCard = createCropCard(randomCrop, container);
+        const cropName = cropNameInput.value.trim();
+        if (!cropName) {
+            alert("Please enter a crop name.");
+            return;
+        }
+
+        const newCard = createCropCard({ name: cropName }, container);
         container.insertBefore(newCard, addCardBtn);
+
+        cropNameInput.value = ""; // Clear input field
 
         if (currentCrops.length + 1 >= MAX_CROPS) {
             addCardBtn.style.display = "none";
