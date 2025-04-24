@@ -1,112 +1,40 @@
-let isLoadingFromStorage = false;
+export const MAX_CROPS = 4;
 
-export async function saveCardsToStorage() {
-    if (isLoadingFromStorage) return;
-
+export function setupAddCard(createCropCard, saveCardsToStorage) {
+    const addCardBtn = document.getElementById('add-card');
     const container = document.querySelector('.growth-cards');
-    if (!container) return;
+    const cropNameInput = document.getElementById('crop-name-input');
 
-    const cards = Array.from(container.querySelectorAll('.card:not(.add-card)'));
-    const cardsData = cards.map(card => {
-        return {
-            id: card.id,
-            crop: card.querySelector('h3').textContent,
-            progress: parseInt(card.querySelector('.progress span').textContent) || 0,
-            timestamp: parseInt(card.id.split('-')[1]) || Date.now()
-        };
-    });
-
-    const token = localStorage.getItem('authToken');
-
-    // Send each card to the backend
-    for (const card of cardsData) {
-        const data = {
-            name: card.crop,
-            growth_percent: card.progress,
-            harvest_ready: false
-        };
-
-        try {
-            const response = await fetch('https://whatever-qw7l.onrender.com/farms/crops', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
-            });
-
-            console.log('Response status:', response.status);
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Error response:', errorText);
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const responseData = await response.json();
-            console.log('Success:', responseData);
-
-        } catch (error) {
-            console.error('Error sending card data:', error);
-        }
+    if (!addCardBtn || !container || !cropNameInput) {
+        console.error("Could not find required elements");
+        return;
     }
 
-    // Optional: redirect after saving all
-    // window.location.href = "https://whatever-qw7l.onrender.com/";
-}
+    addCardBtn.addEventListener('click', () => {
+        const currentCrops = container.querySelectorAll('.card:not(.add-card)');
 
-
-export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
-    const container = document.querySelector('.growth-cards');
-    if (!container) return;
-
-    const token = localStorage.getItem('authToken');
-
-    // Flag we're loading
-    isLoadingFromStorage = true;
-
-    // Clear existing cards except add button
-    const existingCards = container.querySelectorAll('.card:not(.add-card)');
-    existingCards.forEach(card => card.remove());
-
-    // Fetch cards from the backend
-    fetch('https://whatever-qw7l.onrender.com/farms/crops', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`
+        if (currentCrops.length >= MAX_CROPS) {
+            addCardBtn.style.display = "none";
+            return;
         }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(cardsData => {
-            // Load cards in original order
-            cardsData
-                .sort((a, b) => a.timestamp - b.timestamp)
-                .forEach(cardData => {
-                    const card = createCropCard(
-                        { name: cardData.name },
-                        container,
-                        cardData.id,
-                        cardData.growth_percent
-                    );
-                    container.insertBefore(card, container.lastElementChild);
-                });
 
-            // Update add button visibility
-            if (addCardBtn) {
-                addCardBtn.style.display = cardsData.length >= maxCrops ? "none" : "flex";
-            }
-        })
-        .catch(error => {
-            console.error('Error loading cards from backend:', error);
-        })
-        .finally(() => {
-            // Done loading
-            isLoadingFromStorage = false;
-        });
+        const cropName = cropNameInput.value.trim();
+        if (!cropName) {
+            alert("Please enter a crop name.");
+            return;
+        }
+
+        const newCard = createCropCard({ name: cropName }, container);
+        container.insertBefore(newCard, addCardBtn);
+
+        cropNameInput.value = "";
+
+        if (currentCrops.length + 1 >= MAX_CROPS) {
+            addCardBtn.style.display = "none";
+        }
+
+        if (typeof saveCardsToStorage === 'function') {
+            saveCardsToStorage();
+        }
+    });
 }
