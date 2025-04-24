@@ -1,13 +1,19 @@
-export const MAX_CROPS = 4;
+// Import required functions
+import { saveCardsToStorage } from './cardTransfer.js';
+const cropTypes = [
+    { name: "Crops"}
+];
 
-export function setupAddCard(createCropCard, saveCardsToStorage) {
-    const addCardBtn = document.getElementById('add-card');
+export const MAX_CROPS = 4; // Ensure MAX_CROPS is exported
+let addCardBtn;
+
+export function setupAddCard() {
+    addCardBtn = document.getElementById('add-card');
     const container = document.querySelector('.growth-cards');
-    const cropNameInput = document.getElementById('crop-name-input');
 
-    if (!addCardBtn || !container || !cropNameInput) {
+    if (!addCardBtn || !container) {
         console.error("Could not find required elements");
-        return;
+        return { createCropCard, MAX_CROPS, addCardBtn };
     }
 
     addCardBtn.addEventListener('click', () => {
@@ -18,23 +24,54 @@ export function setupAddCard(createCropCard, saveCardsToStorage) {
             return;
         }
 
-        const cropName = cropNameInput.value.trim();
-        if (!cropName) {
-            alert("Please enter a crop name.");
+        const cropName = prompt("Enter the crop name:");
+        if (!cropName || cropName.trim() === "") {
+            alert("Crop name cannot be empty.");
             return;
         }
 
-        const newCard = createCropCard({ name: cropName }, container);
+        const newCard = createCropCard({ name: cropName.trim() }, container);
         container.insertBefore(newCard, addCardBtn);
-
-        cropNameInput.value = "";
 
         if (currentCrops.length + 1 >= MAX_CROPS) {
             addCardBtn.style.display = "none";
         }
 
-        if (typeof saveCardsToStorage === 'function') {
+        saveCardsToStorage();
+    });
+
+    return { createCropCard, MAX_CROPS, addCardBtn };
+}
+
+function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = id;
+    card.innerHTML = `
+        <h3 class="fas">${crop.name}</h3>
+        <button class="remove-card" style="display: none">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="progress" style="--progress: ${progress}%">
+            <span>${progress}% Growth</span>
+        </div>
+    `;
+
+    const removeBtn = card.querySelector('.remove-card');
+    removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        if (confirm('Are you sure you want to remove this card?')) {
+            card.remove();
+            const currentCrops = container.querySelectorAll('.card:not(.add-card)');
+            if (currentCrops.length < MAX_CROPS) {
+                addCardBtn.style.display = "flex";
+            }
             saveCardsToStorage();
         }
     });
+
+    const title = card.querySelector('h3');
+    title.focus();
+    return card;
 }
