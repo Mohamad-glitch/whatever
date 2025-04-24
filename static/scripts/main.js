@@ -1,15 +1,17 @@
 // main.js
 import { treeAnimation } from './utils/loading.js';
-import { setupAddCard } from './utils/add.js';
 import { initCalendar } from './utils/calender.js';
 import { loadCardsFromStorage} from './utils/cardTransfer.js';
 import { toggleEditMode } from './utils/edit_mode.js';
 import { fetchWeather } from './utils/weather.js';
 import { setupNotifications } from './utils/notifications.js';
 import { setupInfoCard } from './utils/info.js';
+import { setupAddCard, MAX_CROPS } from './utils/add.js';
+import { saveCardsToStorage } from './utils/add.js';
+import { createCropCard } from './utils/add.js'; // assuming you have it here
 
-// treeAnimation();
-const token = localStorage.getItem("authToken");
+treeAnimation();
+const token = localStorage.getItem("authToken"); // Replace with your actual JWT
 
 fetch("https://whatever-qw7l.onrender.com/farms/", {
   method: "GET", 
