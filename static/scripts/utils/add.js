@@ -32,12 +32,17 @@ export function setupAddCard() {
 
         const newCard = createCropCard({ name: cropName.trim() }, container);
         container.insertBefore(newCard, addCardBtn);
+        const data = {
+            name: cropName,
+            growth_percent: 0,
+            harvest_ready: false
+        };
 
         if (currentCrops.length + 1 >= MAX_CROPS) {
             addCardBtn.style.display = "none";
         }
         
-        saveCardsToStorage();
+        saveCardsToStorage(data);
     });
 
     return { createCropCard, MAX_CROPS, addCardBtn };

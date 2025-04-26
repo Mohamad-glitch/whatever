@@ -46,8 +46,12 @@
     margin-bottom: 30px;
     font-size: 28px;
     font-weight: 700;
+    font-size: 2.5rem;
 }
-
+.login-logo a{
+    color: white;
+    text-decoration: none;
+}
 .login-logo i {
     margin-right: 10px;
 }

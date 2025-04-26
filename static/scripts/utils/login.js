@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (response.ok) {
                 console.log('Token validated. Auto-login successful.');
-                window.location.href = "https://whatever-qw7l.onrender.com";
+                window.location.href = "https://whatever-qw7l.onrender.com/home";
             } else {
                 console.warn('Token invalid. Clearing token.');
                 localStorage.removeItem('authToken');

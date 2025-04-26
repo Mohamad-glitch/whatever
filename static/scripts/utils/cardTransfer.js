@@ -1,29 +1,13 @@
 let isLoadingFromStorage = false;
 
-export async function saveCardsToStorage() {
+export async function saveCardsToStorage(data) {
     if (isLoadingFromStorage) return;
 
     const container = document.querySelector('.growth-cards');
     if (!container) return;
-
-    let cards = Array.from(container.querySelectorAll('.card:not(.add-card)'));
-    const cardsData = cards.map(card => {
-        return {
-            id: card.id,
-            crop: card.querySelector('h3').textContent,
-            progress: parseInt(card.querySelector('.progress span').textContent) || 0,
-            timestamp: parseInt(card.id.split('-')[1]) || Date.now()
-        };
-    });
-
+    
+    // const cards = Array.from(container.querySelectorAll('.card:not(.add-card)'));
     const token = localStorage.getItem('authToken');
-
-    for (const card of cardsData) {
-        const data = {
-            name: card.crop,
-            growth_percent: card.progress,
-            harvest_ready: false
-        };
 
         try {
             const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops`, { 
@@ -46,7 +30,6 @@ export async function saveCardsToStorage() {
         } catch (error) {
             console.error('Error updating card data:', error);
         }
-    }
 
 }
 
@@ -58,10 +41,8 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
 
     isLoadingFromStorage = true;
 
-    //const existingCards = container.querySelectorAll('.card:not(.add-card)');
-    //existingCards.forEach(card => card.remove());
-
-
+    const existingCards = container.querySelectorAll('.card:not(.add-card)');
+    existingCards.forEach(card => card.remove());
 
     fetch('https://whatever-qw7l.onrender.com/farms/crops', {
         method: 'GET',

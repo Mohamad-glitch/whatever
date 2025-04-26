@@ -95,18 +95,16 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
 
     return db_crop
 
-@router.get("/farmCrops")
-def read_farm_all_crops(session: SessionDep, current_user: User = Depends(get_current_user)):
-    """Get All Crops Of Farm """
+@router.delete("/crops")
+def delete_crops(crop_id: int, session: SessionDep, current_user: User = Depends(get_current_user)):
+    """Delete Crops Of Farm """
+    crop = session.query(Crop).filter(Crop.id == crop_id).first()
+    if not crop:
+        raise HTTPException(status_code=404, detail="Crop not found")
 
-    farm_id = current_user.farm_id
-    farm = session.exec(select(Farm).where(Farm.id == farm_id)).first()
-    if not farm:
-        raise HTTPException(status_code=404, detail="Farm not found")
-
-
-    farm_crops = session.exec(select(Crop).where(Crop.farm_id == farm.id)).all()
-    return farm_crops
+    session.delete(crop)
+    session.commit()
+    return {"message": "Crop Deleted"}
 
 
 @router.post("/sensor")
