@@ -49,14 +49,20 @@ app.include_router(JWTtoken.router)
 
 
 
+
 @app.get("/", response_class=HTMLResponse)
 async def get_index():
     """Show Home Page."""
-    return HTMLResponse(content=open("static/index.html").read())
+    return HTMLResponse(content=open("static/about.html").read())
 
 @app.get("/register", response_class=HTMLResponse)# get the register page
 async def register():
     """Register User."""
     return HTMLResponse(content=open("static/register.html").read())
+
+@app.get("/home", response_class=HTMLResponse)
+async def home():
+    """Home Page."""
+    return HTMLResponse(content=open("static/index.html").read())
 
 
