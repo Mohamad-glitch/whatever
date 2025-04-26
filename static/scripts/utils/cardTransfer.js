@@ -6,7 +6,7 @@ export async function saveCardsToStorage() {
     const container = document.querySelector('.growth-cards');
     if (!container) return;
 
-    const cards = Array.from(container.querySelectorAll('.card:not(.add-card)'));
+    let cards = Array.from(container.querySelectorAll('.card:not(.add-card)'));
     const cardsData = cards.map(card => {
         return {
             id: card.id,
@@ -27,7 +27,7 @@ export async function saveCardsToStorage() {
 
         try {
             const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops`, { 
-                method: 'PUT', // Update existing card instead of creating a new ones with POST
+                method: 'POST', // Update existing card instead of creating a new ones with POST
                 headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
