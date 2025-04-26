@@ -1,9 +1,10 @@
 from typing import Annotated
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, SQLModel, create_engine
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
 
 from models.user import User
 from routers import JWTtoken
@@ -48,6 +49,7 @@ app.include_router(farm_routs.router)
 app.include_router(user_routs.router)
 app.include_router(JWTtoken.router)
 
+templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -61,6 +63,5 @@ async def register():
     return HTMLResponse(content=open("static/register.html").read())
 
 @app.get("/home", response_class=HTMLResponse)
-async def home(current_user: User = Depends(get_current_user)):
-    """Home Page."""
-    return HTMLResponse(content=open("static/index.html").read())
+async def home(request: Request, current_user: User = Depends(get_current_user)):
+    return templates.TemplateResponse("index.html", {"request": request, "user": current_user})
