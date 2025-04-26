@@ -18,7 +18,6 @@ export async function saveCardsToStorage() {
 
     const token = localStorage.getItem('authToken');
 
-    // Send each card to the backend
     for (const card of cardsData) {
         const data = {
             name: card.crop,
@@ -27,16 +26,14 @@ export async function saveCardsToStorage() {
         };
 
         try {
-            const response = await fetch('https://whatever-qw7l.onrender.com/farms/crops', {
-                method: 'POST',
-                headers: {
+            const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops`, { 
+                method: 'PUT', // Update existing card instead of creating a new ones with POST
+                headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(data)
             });
-
-            console.log('Response status:', response.status);
 
             if (!response.ok) {
                 const errorText = await response.text();
@@ -44,18 +41,14 @@ export async function saveCardsToStorage() {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const responseData = await response.json();
-            console.log('Success:', responseData);
+            console.log('Card updated successfully:', card.id);
 
         } catch (error) {
-            console.error('Error sending card data:', error);
+            console.error('Error updating card data:', error);
         }
     }
 
-    // Optional: redirect after saving all
-    // window.location.href = "https://whatever-qw7l.onrender.com/";
 }
-
 
 export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
     const container = document.querySelector('.growth-cards');
@@ -63,15 +56,11 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
 
     const token = localStorage.getItem('authToken');
 
-    // Flag we're loading
     isLoadingFromStorage = true;
 
-    // Clear existing cards except add button
     const existingCards = container.querySelectorAll('.card:not(.add-card)');
     existingCards.forEach(card => card.remove());
 
-
-    // Fetch cards from the backend
     fetch('https://whatever-qw7l.onrender.com/farms/crops', {
         method: 'GET',
         headers: {
@@ -85,8 +74,12 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
             return response.json();
         })
         .then(cardsData => {
+            // Ensure no duplicate cards are created
+            const uniqueCards = new Map();
+            cardsData.forEach(card => uniqueCards.set(card.id, card));
+
             // Load cards in original order
-            cardsData
+            Array.from(uniqueCards.values())
                 .sort((a, b) => a.timestamp - b.timestamp)
                 .forEach(cardData => {
                     const card = createCropCard(
@@ -107,7 +100,6 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
             console.error('Error loading cards from backend:', error);
         })
         .finally(() => {
-            // Done loading
             isLoadingFromStorage = false;
         });
 }

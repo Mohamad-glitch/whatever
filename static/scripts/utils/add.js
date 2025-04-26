@@ -10,7 +10,7 @@ let addCardBtn;
 export function setupAddCard() {
     addCardBtn = document.getElementById('add-card');
     const container = document.querySelector('.growth-cards');
-
+    
     if (!addCardBtn || !container) {
         console.error("Could not find required elements");
         return { createCropCard, MAX_CROPS, addCardBtn };
@@ -18,7 +18,7 @@ export function setupAddCard() {
 
     addCardBtn.addEventListener('click', () => {
         const currentCrops = container.querySelectorAll('.card:not(.add-card)');
-
+        
         if (currentCrops.length >= MAX_CROPS) {
             addCardBtn.style.display = "none";
             return;
@@ -36,7 +36,7 @@ export function setupAddCard() {
         if (currentCrops.length + 1 >= MAX_CROPS) {
             addCardBtn.style.display = "none";
         }
-
+        
         saveCardsToStorage();
     });
 
@@ -56,11 +56,11 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
             <span>${progress}% Growth</span>
         </div>
     `;
-
+    
     const removeBtn = card.querySelector('.remove-card');
     removeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-
+        
         if (confirm('Are you sure you want to remove this card?')) {
             card.remove();
             const currentCrops = container.querySelectorAll('.card:not(.add-card)');
@@ -70,7 +70,7 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
             saveCardsToStorage();
         }
     });
-
+    
     const title = card.querySelector('h3');
     title.focus();
     return card;
