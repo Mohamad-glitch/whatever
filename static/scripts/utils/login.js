@@ -18,6 +18,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         if (!response.ok) {
             const errorText = await response.text();
             console.error('Error response:', errorText);
+            alert('Login failed. Please check your credentials and try again.');
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
@@ -30,6 +31,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         window.location.href = "https://whatever-qw7l.onrender.com/home";
     } catch (error) {
         console.error('Error:', error);
+        alert('Login failed. Please check your credentials and try again.');
     }
 });
 

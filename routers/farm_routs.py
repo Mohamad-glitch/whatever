@@ -95,7 +95,7 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
 
     return db_crop
 
-@router.delete("/crops")
+@router.delete("/crops/{crop_id}")
 def delete_crops(crop_id: int, session: SessionDep, current_user: User = Depends(get_current_user)):
     """Delete Crops Of Farm """
     crop = session.query(Crop).filter(Crop.id == crop_id).first()
