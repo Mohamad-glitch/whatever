@@ -1,3 +1,4 @@
+// Handle login form submit
 document.querySelector('.login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     console.log("Login form submitted");
@@ -7,8 +8,8 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
     const data = { user_email: email, password: passkey };
 
     try {
-        const response = await fetch('https://whatever-qw7l.onrender.com/login_1', { 
-            method: 'POST', 
+        const response = await fetch('https://whatever-qw7l.onrender.com/login_1', {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
@@ -27,22 +28,8 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         // Save token to localStorage
         localStorage.setItem('authToken', responseData.token);
 
-        // Now, instead of direct redirect, validate token and fetch home page content manually
-        const token = localStorage.getItem('authToken');
-
-        const homeResponse = await fetch('https://whatever-qw7l.onrender.com/home', {
-            method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        if (homeResponse.ok) {
-            const homeHtml = await homeResponse.text();
-            document.open();
-            document.write(homeHtml);
-            document.close();
-        } else {
-            console.warn('Failed to load home page:', homeResponse.status);
-        }
+        // ✅ Redirect user properly to /home
+        window.location.href = 'https://whatever-qw7l.onrender.com/home';
 
     } catch (error) {
         console.error('Error:', error);
@@ -61,20 +48,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (response.ok) {
                 console.log('Token validated. Auto-login successful.');
-
-                const homeResponse = await fetch('https://whatever-qw7l.onrender.com/home', {
-                    method: 'GET',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (homeResponse.ok) {
-                    const homeHtml = await homeResponse.text();
-                    document.open();
-                    document.write(homeHtml);
-                    document.close();
-                } else {
-                    console.warn('Failed to load home page during auto-login.');
-                }
+                // ✅ Redirect user properly to /home
+                window.location.href = 'https://whatever-qw7l.onrender.com/home';
             } else {
                 console.warn('Token invalid. Clearing token.');
                 localStorage.removeItem('authToken');
