@@ -27,7 +27,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         // Save token to localStorage
         localStorage.setItem('authToken', responseData.token);
 
-        window.location.href = "https://whatever-qw7l.onrender.com";
+        window.location.href = "https://whatever-qw7l.onrender.com/home";
     } catch (error) {
         console.error('Error:', error);
     }
