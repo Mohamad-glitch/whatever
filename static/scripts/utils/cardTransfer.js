@@ -58,8 +58,10 @@ export function loadCardsFromStorage(createCropCard, maxCrops, addCardBtn) {
 
     isLoadingFromStorage = true;
 
-    const existingCards = container.querySelectorAll('.card:not(.add-card)');
-    existingCards.forEach(card => card.remove());
+    //const existingCards = container.querySelectorAll('.card:not(.add-card)');
+    //existingCards.forEach(card => card.remove());
+
+
 
     fetch('https://whatever-qw7l.onrender.com/farms/crops', {
         method: 'GET',
