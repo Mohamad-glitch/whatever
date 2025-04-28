@@ -14,13 +14,7 @@ export async function saveCardsToStorage(cardData) {
             name: String(cardData.name || "Unnamed Crop").slice(0, 50), // Limit name length
             growth_percent: Number(cardData.growth_percent) || 0,
             harvest_ready: Boolean(cardData.harvest_ready),
-            farm_id: Number(cardData.farm_id) // Ensure farm_id is included
         };
-
-        // Validate required fields
-        if (isNaN(body.farm_id)) {
-            throw new Error('Invalid farm_id');
-        }
 
         const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops`, {
             method: 'POST',
