@@ -11,7 +11,7 @@ export function toggleEditMode() {
         // Entering edit mode
         isEditMode = true;
 
-        // Store original titles and deleted cards
+        // Store original titles
         originalTitles = Array.from(cropTitles).map(title => title.textContent);
         deletedCards = [];
 
@@ -31,58 +31,20 @@ export function toggleEditMode() {
         });
 
     } else {
-        // Attempting to exit edit mode — confirm with user
+        // Attempting to exit edit mode
         const confirmed = confirm("Confirm changes to crops?");
         if (!confirmed) {
-            // Restore original titles and deleted cards
+            // User cancelled — restore everything
             cropTitles.forEach((title, i) => {
                 title.textContent = originalTitles[i];
             });
 
-            // deletedCards.forEach(card => {
-            //     card.style.display = "block"; // Restore the card's visibility
-            //     const container = document.querySelector('.growth-cards');
-            //     container.insertBefore(card, addCardBtn);
-            // });
-
-            // // Handle add button visibility
-            // if (deletedCards.length + cropTitles.length < MAX_CROPS) {
-            //     addCardBtn.style.display = "flex";
-            // }
-
-            disableEditMode(false); // false = don't save
+            disableEditMode(false); // Don't save
             return;
         }
-        // Save changes to the backend (NAMES ONLY)
-        if (save) {
-            const token = localStorage.getItem('authToken');
-            cropTitles.forEach(async (title) => {
-                const card = title.closest('.card');
-                const cropId = card.id;
 
-                try {
-                    const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ name: title.textContent.trim() })
-                    });
-
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        console.error(`Error updating crop ${cropId}:`, errorText);
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-
-                    console.log(`Crop ${cropId} updated successfully.`);
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
-        }
-        disableEditMode(true); // true = do save
+        // User confirmed — save changes
+        disableEditMode(true); // Save
     }
 
     // Update edit button appearance
@@ -115,6 +77,8 @@ export function disableEditMode(save = true) {
     });
 
     if (save) {
+        // Save changes to backend
+        saveCropTitlesToBackend(cropTitles);
     }
 
     // Update edit button
@@ -122,6 +86,41 @@ export function disableEditMode(save = true) {
     if (editButton) {
         editButton.classList.remove('active');
         editButton.innerHTML = '<i class="fas fa-edit"></i>';
+    }
+}
+
+// Save updated crop titles to backend
+async function saveCropTitlesToBackend(cropTitles) {
+    const token = localStorage.getItem('authToken');
+
+    for (const title of cropTitles) {
+        const card = title.closest('.card');
+        const cropId = card.id;
+
+        try {
+            const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: title.textContent.trim(),
+                    growth_percent: 0,        // <-- Required by your backend
+                    harvest_ready: false      // <-- Required by your backend
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Error updating crop ${cropId}:`, errorText);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            console.log(`Crop ${cropId} updated successfully.`);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 }
 
@@ -170,8 +169,9 @@ function showCharacterLimitWarning(element) {
     }, 2000);
 }
 
+// Handle card removal
 function handleCardRemoval(e) {
     const card = e.target.closest('.card');
-    deletedCards.push(card); // Save the card for potential restoration
-    card.style.display = "none"; // Temporarily hide the card instead of removing it
+    deletedCards.push(card);
+    card.style.display = "none"; // Hide instead of deleting immediately
 }
