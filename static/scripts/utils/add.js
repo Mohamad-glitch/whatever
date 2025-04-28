@@ -60,7 +60,7 @@ function createCropCard(crop, container, progress = 0) {
     const removeBtn = card.querySelector('.remove-card');
     removeBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
-
+        let id = card.id;
         if (confirm('Are you sure you want to remove this card?')) {
             try {
                 const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${id}`, {
