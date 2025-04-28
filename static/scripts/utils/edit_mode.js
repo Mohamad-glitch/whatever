@@ -62,7 +62,7 @@ export function toggleEditMode() {
 
                 try {
                     const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
-                        method: 'PUT',
+                        method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
