@@ -1,5 +1,3 @@
-import { saveCardsToStorage } from './cardTransfer.js';
-
 let isEditMode = false;
 const MAX_NAME_LENGTH = 20;
 let originalTitles = [];
@@ -34,30 +32,56 @@ export function toggleEditMode() {
 
     } else {
         // Attempting to exit edit mode — confirm with user
-        const confirmed = confirm("Confirm changes to crop names?");
+        const confirmed = confirm("Confirm changes to crops?");
         if (!confirmed) {
             // Restore original titles and deleted cards
             cropTitles.forEach((title, i) => {
                 title.textContent = originalTitles[i];
             });
 
-            deletedCards.forEach(card => {
-                card.style.display = "block"; // Restore the card's visibility
-                const container = document.querySelector('.growth-cards');
-                container.insertBefore(card, addCardBtn);
-            });
+            // deletedCards.forEach(card => {
+            //     card.style.display = "block"; // Restore the card's visibility
+            //     const container = document.querySelector('.growth-cards');
+            //     container.insertBefore(card, addCardBtn);
+            // });
 
-            // Handle add button visibility
-            if (deletedCards.length + cropTitles.length < MAX_CROPS) {
-                addCardBtn.style.display = "flex";
-            }
+            // // Handle add button visibility
+            // if (deletedCards.length + cropTitles.length < MAX_CROPS) {
+            //     addCardBtn.style.display = "flex";
+            // }
 
-            // Just disable edit mode visuals
             disableEditMode(false); // false = don't save
             return;
         }
+        // Save changes to the backend (NAMES ONLY)
+        if (save) {
+            const token = localStorage.getItem('authToken');
+            cropTitles.forEach(async (title) => {
+                const card = title.closest('.card');
+                const cropId = card.id;
 
-        // Proceed with save
+                try {
+                    const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ name: title.textContent.trim() })
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error(`Error updating crop ${cropId}:`, errorText);
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    console.log(`Crop ${cropId} updated successfully.`);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
         disableEditMode(true); // true = do save
     }
 
@@ -91,7 +115,6 @@ export function disableEditMode(save = true) {
     });
 
     if (save) {
-        saveCardsToStorage();
     }
 
     // Update edit button
