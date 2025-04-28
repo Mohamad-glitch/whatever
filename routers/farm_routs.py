@@ -95,10 +95,15 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
 
     return db_crop
 
+
 @router.delete("/crops/{crop_id}")
 def delete_crops(crop_id: int, session: SessionDep, current_user: User = Depends(get_current_user)):
-    """Delete Crops Of Farm """
-    crop = session.query(Crop).filter(Crop.id == crop_id).first()
+    """Delete Crops Of Farm"""
+    crop = session.exec(select(Crop)
+                        .where(Crop.id == crop_id)
+                        .where(Crop.farm_id == current_user.farm_id)
+                        ).first()
+
     if not crop:
         raise HTTPException(status_code=404, detail="Crop not found")
 
