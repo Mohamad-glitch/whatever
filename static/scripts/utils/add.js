@@ -15,7 +15,7 @@ export function setupAddCard() {
 
     addCardBtn.addEventListener('click', () => {
         const currentCrops = container.querySelectorAll('.card:not(.add-card)');
-        oneTimeReload = true;
+
         if (currentCrops.length >= MAX_CROPS) {
             addCardBtn.style.display = "none";
             return;
@@ -38,13 +38,14 @@ export function setupAddCard() {
         if (currentCrops.length + 1 >= MAX_CROPS) {
             addCardBtn.style.display = "none";
         }
-
+        oneTimeReload = true;
         saveCardsToStorage(data);
     });
+
     return { createCropCard, MAX_CROPS, addCardBtn };
 }
 
-function createCropCard(crop, container,id = `crop-${Date.now()}`  , progress = 0) {
+function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0) {
     const card = document.createElement('div');
     card.className = 'card';
     card.id = id;
@@ -58,33 +59,38 @@ function createCropCard(crop, container,id = `crop-${Date.now()}`  , progress = 
         </div>
     `;
 
-    const removeBtn = card.querySelector('.remove-card');
     removeBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        let id = card.id;
+
         if (confirm('Are you sure you want to remove this card?')) {
             try {
-                const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`},
-                });
+                console.log('Deleting crop with ID:', id); // Debug log
+
+                const response = await fetch(
+                    `https://whatever-qw7l.onrender.com/farms/crops/${id}`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                            'Content-Type': 'application/json'
+                        },
+                    }
+                );
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error('Error deleting card:', errorText);
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    console.error('Full error response:', errorText);
+                    throw new Error(`Delete failed: ${response.status}`);
                 }
-
-                console.log(`Card with ID ${id} deleted successfully.`);
+    
                 card.remove();
-
-                const currentCrops = container.querySelectorAll('.card:not(.add-card)');
-                if (currentCrops.length < MAX_CROPS) {
+                if (container.querySelectorAll('.card:not(.add-card)').length < MAX_CROPS) {
                     addCardBtn.style.display = "flex";
                 }
+
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Full error:', error);
+                alert('Failed to delete crop. See console for details.');
             }
         }
     });
