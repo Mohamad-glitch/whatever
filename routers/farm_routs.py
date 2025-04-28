@@ -88,10 +88,13 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
 
     # Assign the farm ID to the crop
     db_crop = Crop(**crops.dict(), farm_id=farm.id)
+    print(db_crop.dict())
 
     session.add(db_crop)
     session.commit()
     session.refresh(db_crop)
+
+    print(db_crop.dict())
 
     return db_crop
 
