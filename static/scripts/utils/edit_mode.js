@@ -1,4 +1,4 @@
-// edit_mode.js - Revised Version
+// edit_mode.js - Final Updated Version
 let isEditMode = false;
 const MAX_NAME_LENGTH = 20;
 let originalTitles = [];
@@ -28,6 +28,7 @@ export function toggleEditMode() {
         } else {
             // Restore deleted cards if cancelled
             deletedCards.forEach(card => card.style.display = "block");
+            deletedCards = [];
         }
         disableEditMode();
     }
@@ -36,8 +37,8 @@ export function toggleEditMode() {
     const editButton = document.getElementById('edit');
     if (editButton) {
         editButton.classList.toggle('active', isEditMode);
-        editButton.innerHTML = isEditMode 
-            ? '<i class="fas fa-check"></i>' 
+        editButton.innerHTML = isEditMode
+            ? '<i class="fas fa-check"></i>'
             : '<i class="fas fa-edit"></i>';
     }
 }
@@ -49,19 +50,28 @@ export function disableEditMode() {
     });
 }
 
-// Delete removed crops from backend (WORKING)
+// Delete removed crops from backend
 async function removeDeletedCropsFromBackend() {
     const token = localStorage.getItem('authToken');
 
     for (const card of deletedCards) {
-        const cropId = card.id;
+        // Extract numeric ID from "crop-12345" format
+        const cropId = card.id.startsWith('crop-')
+            ? card.id.replace('crop-', '')
+            : card.id;
+
         try {
-            await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
+            const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             card.remove(); // Physically remove from DOM after successful deletion
         } catch (error) {
             console.error(`Failed to delete crop ${cropId}:`, error);
@@ -73,6 +83,8 @@ async function removeDeletedCropsFromBackend() {
 
 function handleCardRemoval(e) {
     const card = e.target.closest('.card');
-    deletedCards.push(card);
-    card.style.display = "none"; // Hide temporarily
+    if (card) {
+        deletedCards.push(card);
+        card.style.display = "none"; // Hide temporarily
+    }
 }
