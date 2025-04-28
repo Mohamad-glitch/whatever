@@ -44,7 +44,7 @@ export function setupAddCard() {
         
        saveCardsToStorage(data);
     });
-
+    location.reload();
     return { createCropCard, MAX_CROPS, addCardBtn };
 }
 
