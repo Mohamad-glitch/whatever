@@ -82,7 +82,7 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                     console.error('Full error response:', errorText);
                     throw new Error(`Delete failed: ${response.status}`);
                 }
-    
+
                 card.remove();
                 if (container.querySelectorAll('.card:not(.add-card)').length < MAX_CROPS) {
                     addCardBtn.style.display = "flex";

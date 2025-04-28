@@ -22,34 +22,34 @@ export function toggleEditMode() {
     }
     updateEditButtonUI();
 }
-
-async function removeDeletedCropsFromBackend() {
-    const token = localStorage.getItem('authToken');
-
-    for (const card of [...deletedCards]) { // Create copy of array
-        try {
-            const cropId = extractNumericId(card.id);
-            const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-
-            if (response.status === 404) {
-                console.warn(`Crop ${cropId} not found - removing from UI anyway`);
-                card.remove();
-                continue;
-            }
-
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-            card.remove();
-        } catch (error) {
-            console.error(`Deletion failed:`, error);
-            card.style.display = "block";
-        }
-    }
-    deletedCards = [];
-}
+//
+// async function removeDeletedCropsFromBackend() {
+//     const token = localStorage.getItem('authToken');
+//
+//     for (const card of [...deletedCards]) { // Create copy of array
+//         try {
+//             const cropId = extractNumericId(card.id);
+//             const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
+//                 method: 'DELETE',
+//                 headers: { 'Authorization': `Bearer ${token}` }
+//             });
+//
+//             if (response.status === 404) {
+//                 console.warn(`Crop ${cropId} not found - removing from UI anyway`);
+//                 card.remove();
+//                 continue;
+//             }
+//
+//             if (!response.ok) throw new Error(`HTTP ${response.status}`);
+//
+//             card.remove();
+//         } catch (error) {
+//             console.error(`Deletion failed:`, error);
+//             card.style.display = "block";
+//         }
+//     }
+//     deletedCards = [];
+// }
 
 function extractNumericId(id) {
     // Handle both "crop-123" and raw number formats
