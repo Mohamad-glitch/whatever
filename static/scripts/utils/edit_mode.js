@@ -79,6 +79,7 @@ export function disableEditMode(save = true) {
     if (save) {
         // Save changes to backend
         saveCropTitlesToBackend(cropTitles);
+        removeDeletedCropsFromBackend();
     }
 
     // Update edit button
@@ -118,6 +119,35 @@ async function saveCropTitlesToBackend(cropTitles) {
             }
 
             console.log(`Crop ${cropId} updated successfully.`);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+}
+
+// Delete removed crops from backend
+async function removeDeletedCropsFromBackend() {
+    const token = localStorage.getItem('authToken');
+
+    for (const card of deletedCards) {
+        const cropId = card.id;
+
+        try {
+            const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cropId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Error deleting crop ${cropId}:`, errorText);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            console.log(`Crop ${cropId} deleted successfully.`);
         } catch (error) {
             console.error('Error:', error);
         }
