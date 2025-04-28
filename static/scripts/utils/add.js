@@ -42,7 +42,7 @@ export function setupAddCard() {
             addCardBtn.style.display = "none";
         }
         
-        saveCardsToStorage(data);
+       saveCardsToStorage(data);
     });
 
     return { createCropCard, MAX_CROPS, addCardBtn };
@@ -72,7 +72,7 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
             if (currentCrops.length < MAX_CROPS) {
                 addCardBtn.style.display = "flex";
             }
-            saveCardsToStorage();
+          //  saveCardsToStorage();
         }
     });
     
