@@ -44,9 +44,10 @@ export function setupAddCard() {
     return { createCropCard, MAX_CROPS, addCardBtn };
 }
 
-function createCropCard(crop, container, progress = 0) {
+function createCropCard(crop, container,id = `crop-${Date.now()}`  , progress = 0) {
     const card = document.createElement('div');
     card.className = 'card';
+    card.id = id;
     card.innerHTML = `
         <h3 class="fas">${crop.name}</h3>
         <button class="remove-card" style="display: none">
