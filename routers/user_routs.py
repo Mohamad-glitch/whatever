@@ -106,3 +106,5 @@ def show_user(user_email:str, session: SessionDep):
 @router.get("/some-endpoint")
 def get_data():
     return {"message": "Hello, world!"}
+
+
