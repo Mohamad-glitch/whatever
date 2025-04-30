@@ -6,31 +6,12 @@ import { loadCardsFromStorage} from './utils/cardTransfer.js';
 import { toggleEditMode } from './utils/edit_mode.js';
 import { fetchWeather } from './utils/weather.js';
 import { setupNotifications } from './utils/notifications.js';
-import { updateUsername } from './utils/user.js';
-// import { setupInfoCard } from './utils/info.js';
+import { updateUsername } from './utils/current_user.js';
+
 
 // treeAnimation();
 const token = localStorage.getItem("authToken");
 
-// fetch("https://whatever-qw7l.onrender.com/farms/", {
-//   method: "GET",
-//   headers: {
-//     "Authorization": `Bearer ${token}`,
-//     "Content-Type": "application/json"
-//   }
-// })
-// .then(response => {
-//   if (!response.ok) {
-//     throw new Error("Network response was not ok");
-//   }
-//   return response.json();
-// })
-// .then(data => {
-//   console.log("Data:", data);
-// })
-// .catch(error => {
-//   console.error("Error:", error);
-// });
 
 
 document.addEventListener('DOMContentLoaded', function() {
