@@ -100,14 +100,14 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
 
 
 @router.patch("/crops/{crop_id}")
-def update_crop_name(crop_id: int, crop_data: CropNameUpdate, db: Session = SessionDep):
-    crop = db.query(Crop).filter(Crop.id == crop_id).first()
+def update_crop_name(crop_id: int, crop_data: CropNameUpdate,  session: SessionDep):
+    crop = session.query(Crop).filter(Crop.id == crop_id).first()
     if not crop:
         raise HTTPException(status_code=404, detail="Crop not found")
 
     crop.name = crop_data.name
-    db.commit()
-    db.refresh(crop)
+    session.commit()
+    session.refresh(crop)
     print({"id": crop.id, "name": crop.name})
     return {"message": "Crop name updated successfully", "crop": crop}
 
