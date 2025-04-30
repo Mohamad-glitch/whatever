@@ -1,4 +1,6 @@
 from typing import Optional
+
+from pydantic import BaseModel
 from sqlmodel import Field, SQLModel, Relationship
 
 class SensorBase(SQLModel):
@@ -22,3 +24,6 @@ class SensorUpdate(SensorBase):
     temperature: Optional[int] = None
     soil_moisture: Optional[float] = None  # Changed to float
     humidity: Optional[float] = None
+
+class WindowStatus(BaseModel):
+    status: str

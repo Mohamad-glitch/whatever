@@ -69,3 +69,9 @@ async def register():
 async def home():
     """Home Page."""
     return HTMLResponse(content=open("static/index.html").read())
+
+@app.get("/devs/whatever")
+async def devs():
+    """Whatever Page for devs"""
+    return HTMLResponse(content=open("static/whatever.html").read())
+
