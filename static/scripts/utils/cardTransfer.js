@@ -13,7 +13,7 @@ export async function saveCardsToStorage(cardData) {
         const body = {
             name: String(cardData.name || "Unnamed Crop").slice(0, 50), // Limit name length
             growth_percent: Number(cardData.growth_percent) || 0,
-            harvest_ready: Boolean(cardData.harvest_ready),
+            harvest_ready: Boolean(false),
         };
 
         const response = await fetch(`https://whatever-qw7l.onrender.com/farms/crops`, {
