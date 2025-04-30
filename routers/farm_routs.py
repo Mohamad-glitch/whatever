@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from fastapi import Depends, HTTPException
 from sqlmodel import Session, SQLModel, create_engine, select
 
-from models.crop import Crop, CropCreate
+from models.crop import Crop, CropCreate, CropNameUpdate
 from models.farm import Farm, FarmPublic
 from models.sensor import SensorCreate, Sensor
 from models.user import User
@@ -97,6 +97,19 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
     print(db_crop.dict())
 
     return db_crop
+
+
+@router.patch("/crops/{crop_id}")
+def update_crop_name(crop_id: int, crop_data: CropNameUpdate, db: Session = SessionDep):
+    crop = db.query(Crop).filter(Crop.id == crop_id).first()
+    if not crop:
+        raise HTTPException(status_code=404, detail="Crop not found")
+
+    crop.name = crop_data.name
+    db.commit()
+    db.refresh(crop)
+    print({"id": crop.id, "name": crop.name})
+    return {"message": "Crop name updated successfully", "crop": crop}
 
 
 @router.delete("/crops/{crop_id}")

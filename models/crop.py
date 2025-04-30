@@ -1,5 +1,6 @@
 from typing import Optional
 
+from pydantic import BaseModel
 from sqlmodel import Field, SQLModel, Relationship
 
 
@@ -31,3 +32,8 @@ class CropUpdate(CropBase):
     name: Optional[str] = None
     growth_percent: Optional[int] = None
     harvest_ready: Optional[bool] = None
+
+
+class CropNameUpdate(BaseModel):
+    name : str
+
