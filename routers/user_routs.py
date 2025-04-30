@@ -8,7 +8,7 @@ from starlette.responses import RedirectResponse, HTMLResponse, JSONResponse
 
 from models.farm import Farm
 from models.user import UserCreate, User, UserPublic
-from routers.JWTtoken import create_access_token
+from routers.JWTtoken import create_access_token, get_current_user
 
 router = APIRouter(tags=["users"])
 
@@ -93,15 +93,8 @@ def register_user(user: UserCreate, session: SessionDep):
     return RedirectResponse(url="https://whatever-qw7l.onrender.com/login", status_code=303)
 
 @router.get("/show_user")
-def show_user(user_email:str, session: SessionDep):
-    db_user = session.exec(select(User).where(User.email == user_email)).first()
-
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    user_public = UserPublic.from_orm(db_user)
-
-    return user_public
+def show_user(session: SessionDep, current_user: User = Depends(get_current_user)):
+    return {"full_name" : current_user.full_name}
 
 @router.get("/some-endpoint")
 def get_data():

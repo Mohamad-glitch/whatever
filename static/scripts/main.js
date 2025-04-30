@@ -6,13 +6,14 @@ import { loadCardsFromStorage} from './utils/cardTransfer.js';
 import { toggleEditMode } from './utils/edit_mode.js';
 import { fetchWeather } from './utils/weather.js';
 import { setupNotifications } from './utils/notifications.js';
+import { updateUsername } from './utils/user.js';
 // import { setupInfoCard } from './utils/info.js';
 
 // treeAnimation();
-const token = localStorage.getItem("authToken"); 
+const token = localStorage.getItem("authToken");
 
 // fetch("https://whatever-qw7l.onrender.com/farms/", {
-//   method: "GET", 
+//   method: "GET",
 //   headers: {
 //     "Authorization": `Bearer ${token}`,
 //     "Content-Type": "application/json"
@@ -34,9 +35,9 @@ const token = localStorage.getItem("authToken");
 
 document.addEventListener('DOMContentLoaded', function() {
     initCalendar();
-
+    updateUsername();
     // setupInfoCard();
-    
+
     // Set up edit button
     const editButton = document.getElementById('edit');
     if (editButton) {
@@ -45,10 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set up Add Card AFTER loading from storage
     const { createCropCard, MAX_CROPS, addCardBtn } = setupAddCard();
-    loadCardsFromStorage(createCropCard, MAX_CROPS, addCardBtn);    
+    loadCardsFromStorage(createCropCard, MAX_CROPS, addCardBtn);
 
     fetchWeather("Irbid");
 
     const { addNotification } = setupNotifications('noti');
-    setTimeout(() => addNotification('first notification'), 3000);
+    setTimeout(() => addNotification('KYS'), 3000);
 });
