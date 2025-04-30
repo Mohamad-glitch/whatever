@@ -100,7 +100,7 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
 
 
 @router.patch("/crops/{crop_id}")
-def update_crop_name(crop_id: int, crop_data: CropNameUpdate,  session: SessionDep):
+def update_crop_name(crop_id: int, crop_data: CropNameUpdate,  session: SessionDep, current_user: User = Depends(get_current_user)):
     crop = session.query(Crop).filter(Crop.id == crop_id).first()
     if not crop:
         raise HTTPException(status_code=404, detail="Crop not found")

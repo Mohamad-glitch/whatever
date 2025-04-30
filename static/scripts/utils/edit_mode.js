@@ -56,8 +56,7 @@ function saveEditedTitles() {
         const cardId = card.id; // Assuming the card's ID is stored in the `id` attribute
 
         if (newTitle !== originalTitle) {
-            // Make a PUT request to update the name
-            fetch(`https://whatever-qw7l.onrender.com/farms/crops/${id}`, {
+            fetch(`https://whatever-qw7l.onrender.com/farms/crops/${cardId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
