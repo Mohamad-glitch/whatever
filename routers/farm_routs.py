@@ -152,3 +152,50 @@ def read_farm_sensor_stats(session: SessionDep, current_user: User = Depends(get
     farm_sensor = session.exec(select(Sensor).where(Sensor.farm_id == farm_id)).all()
     return farm_sensor
 
+# Window Show/Control code
+
+# Temporary storage in memory
+last_window_status = {"status": "close"}
+
+# get the
+@router.post("/window-status")
+def receive_window_status(
+        window_status: WindowStatus,
+        current_user: User = Depends(get_current_user)
+):
+    """
+    Receive the current status of the window from Arduino (open/closed).
+    """
+    if window_status.status not in ["open", "closed"]:
+        raise HTTPException(status_code=400, detail=f"Invalid status received: {window_status.status}")
+
+    # Update the last known window status
+    last_window_status["status"] = window_status.status
+
+    # You can process it here, for example log or update UI
+    return {"message": "Window status received", "status": window_status.status}
+
+
+@router.get("/window-status")
+def get_window_status_for_frontend(current_user: User = Depends(get_current_user)):
+    """
+    Get the last known window status for the frontend (open/closed).
+    """
+    return {"status": last_window_status["status"]}
+
+
+@router.post("/window/change")
+def user_change_window_status(
+        window_action: WindowStatus,
+        current_user: User = Depends(get_current_user)
+):
+    """
+    Receive user request to open or close the window.
+    """
+    if window_action.status not in ["open", "closed"]:
+        raise HTTPException(status_code=400, detail="Invalid window action.")
+
+    last_window_status["status"] = window_action.status
+
+    # Here you could also add permission checks if needed
+    return {"message": f"User requested to {window_action.status} the window."}
