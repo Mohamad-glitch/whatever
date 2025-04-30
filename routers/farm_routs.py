@@ -6,7 +6,7 @@ from sqlmodel import Session, SQLModel, create_engine, select
 
 from models.crop import Crop, CropCreate, CropNameUpdate
 from models.farm import Farm, FarmPublic
-from models.sensor import SensorCreate, Sensor
+from models.sensor import SensorCreate, Sensor, WindowStatus
 from models.user import User
 from routers.JWTtoken import get_current_user
 
