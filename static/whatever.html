@@ -17,9 +17,9 @@
             })
             .then(data => {
                 const p = document.getElementById('togglep');
-                const currentState = data.status; // Assuming the server returns { status: "on" } or { status: "off" }
+                const currentState = data.status; // Assuming the server returns { status: "open" } or { status: "close" }
                 p.dataset.state = currentState;
-                p.textContent = `Turn ${currentState === 'on' ? 'Off' : 'On'}`;
+                p.textContent = currentState === 'open' ? 'Close' : 'Open';
             })
             .catch(error => {
                 console.error('Error fetching server status:', error);
@@ -31,6 +31,6 @@
     </script>
 </head>
 <body style="background-color: #333; color: white; text-align: center; padding: 20px;">
-    <p id="togglep" data-state="off" onclick="toggleServer()">Turn On</p>
+    <p id="togglep" data-state="close" onclick="toggleServer()">Open</p>
 </body>
 </html>
