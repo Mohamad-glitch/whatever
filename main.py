@@ -1,18 +1,12 @@
-
 from typing import Annotated
-
-
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from sqlmodel import Session, SQLModel, create_engine
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
-
-from models.user import User
 from routers import JWTtoken
 from routers import farm_routs, user_routs
-from routers.JWTtoken import get_current_user
+
 
 
 sql_file_name = "farm_database.db"
