@@ -189,7 +189,7 @@
 }
 
 .notification-dropdown.open {
-    max-height: 250px; /* Adjust based on content height */
+    max-height: 250px;
     opacity: 1;
 }
 

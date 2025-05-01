@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="938a7275-0548-4240-b9fa-8f4e5500341e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/static/scripts/utils/toggle_theme.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/JWTtoken.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/JWTtoken.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/utils/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/add.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/utils/weather.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/weather.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/contents/about_case.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/about_case.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/contents/about_footer.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/about_footer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/contents/about_header.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/about_header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/contents/cards.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/cards.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/contents/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/contents/sidebar.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/sidebar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/utlis.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/utlis.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +31,7 @@
         <option value="FastAPI main" />
         <option value="FastAPI test_main" />
         <option value="Python Script" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -101,7 +113,7 @@
       <workItem from="1746023217760" duration="1093000" />
       <workItem from="1746024639675" duration="1239000" />
       <workItem from="1746033960678" duration="7781000" />
-      <workItem from="1746122288320" duration="754000" />
+      <workItem from="1746122288320" duration="2141000" />
     </task>
     <servers />
   </component>

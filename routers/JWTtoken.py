@@ -63,7 +63,7 @@ def authenticate_user(session: SessionDep, email: str, password: str):
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
-    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=1))
+    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=120))
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt

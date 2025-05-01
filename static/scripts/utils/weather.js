@@ -17,7 +17,7 @@ function showWeatherError() {
     document.getElementById("today-weather").innerHTML = `
         <div class="weather-day-content">
             <div class="weather-time">
-                <h3>Today</h3>
+                <h3 class="weather-day-title">Today</h3>
                 <p>Day: N/A</p>
             </div>
             <div class="weather-time">
@@ -28,7 +28,7 @@ function showWeatherError() {
     document.getElementById("tomorrow-weather").innerHTML = `
         <div class="weather-day-content">
             <div class="weather-time">
-                <h3>Tomorrow</h3>
+                <h3 class="weather-day-title">Tomorrow</h3>
                 <p>Day: N/A</p>
             </div>
             <div class="weather-time">
@@ -117,7 +117,7 @@ function getWeatherIcon(data) {
 function generateWeatherHTML(data, label, date) {
     return `
         <div class="weather-header">
-            ${label}
+            <h3 class="weather-day-title">${label}</h3>
             <div class="weather-date">${date}</div>
         </div>
         <div class="weather-content" style="display: flex; justify-content: space-between; align-items: center;">

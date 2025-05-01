@@ -1,9 +1,9 @@
-// Import required functions
 import { saveCardsToStorage } from './cardTransfer.js';
 
-export const MAX_CROPS = 4; // Ensure MAX_CROPS is exported
+export const MAX_CROPS = 4; // MAX_CROPS is exported
 let addCardBtn;
 let oneTimeReload = false;
+
 export function setupAddCard() {
     addCardBtn = document.getElementById('add-card');
     const container = document.querySelector('.growth-cards');
@@ -43,8 +43,8 @@ export function setupAddCard() {
     });
     return { createCropCard, MAX_CROPS, addCardBtn };
 }
-
-function createCropCard(crop, container,id = `crop-${Date.now()}`  , progress = 0) {
+// creating a crop card
+function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0) {
     const card = document.createElement('div');
     card.className = 'card';
     card.id = id;
@@ -58,6 +58,18 @@ function createCropCard(crop, container,id = `crop-${Date.now()}`  , progress = 
         </div>
     `;
 
+    // Add click event to update the stats card
+    card.addEventListener('click', () => {
+        const statsCard = document.querySelector('.stats.card');
+        if (statsCard) {
+            statsCard.querySelector('h3').textContent = crop.name;
+
+   // NEW FETCH REQUEST FOR SENSOR DATA
+            let id = card.id;
+        }
+    });
+
+    // remove button click event listener
     const removeBtn = card.querySelector('.remove-card');
     removeBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
@@ -91,6 +103,7 @@ function createCropCard(crop, container,id = `crop-${Date.now()}`  , progress = 
 
     const title = card.querySelector('h3');
     title.focus();
+    // force reload to update the crop card
     if (oneTimeReload) {
         oneTimeReload = false;
         location.reload();

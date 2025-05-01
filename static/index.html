@@ -39,7 +39,7 @@
 
             
             <nav class="main-nav fa-solid">
-                <a href="#" id="username" ><i class="fas fa-user"></i>My Farm</a>
+                <a href="#" id="username"><i class="fas fa-user"></i>My Farm</a>
                 <a href="#" class="active"><i class="fas fa-chart-line "></i> Overview</a>
                 <!-- <a href="#"><i class="fas fa-tractor"></i> Fields</a> -->
                 <a href="https://whatever-qw7l.onrender.com/sensors"><i class="fas fa-microchip"></i> Sensors</a>
@@ -69,7 +69,7 @@
             <a href="https://whatever-qw7l.onrender.com/login" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
             <script src="/static/scripts/utils/logout.js"></script>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="content">
             <div class="header">
@@ -89,7 +89,7 @@
                         <h3 class="fa-solid">Mango</h3>
                         <button class="remove-card"><i class="fas fa-times"></i></button>
                         <div class="progress mango-progress" id="mango">
-                            
+
                             <span>0% Growth</span>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                             <span>55% Growth</span>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <h3 class="fa-solid">Carrot</h3>
                         <button class="remove-card"><i class="fas fa-times"></i></button>
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Weather Section -->
                 <div class="weather">
                     <div class="weather-day" id="today-weather">
@@ -126,7 +126,7 @@
                         <!-- Tomorrow's weather data will be dynamically inserted here -->
                     </div>
                 </div>
-                
+
                 <!-- Farmer Plan -->
                 <div class="farmer-plan card">
                     <h3>Cool Progress Farm</h3>
@@ -134,7 +134,7 @@
                         <div class="progress-fill" style="width: 85%"></div>
                     </div>
                 </div>
-                
+
                 <!-- Productive Analysis -->
                 <div class="productive-analysis card">
                     <h3>Productive analysis</h3>
@@ -153,27 +153,35 @@
                         <span>September</span>
                     </div>
                 </div>
-                
-                <!-- Carrot Stats -->
-                <div class="carrot-stats card">
-                    <h3 class="fas">Carrot</h3>
+
+                <!-- Stats -->
+                <div class="stats card">
+                    <h3 class="fas">Select a Crop</h3>
                     <div class="stats-grid">
                         <div class="stat">
-                            <span>Temperature</span>
-                            <span>95%</span>
+                            <span> Temperature <i class="fas fa-thermometer-half"></i></span>
+                            <span> - - </span>
                         </div>
                         <div class="stat">
-                            <span>Soil Moisture</span>
-                            <span>21%</span>
+                            <span>Soil Moisture <i class="fas fa-tint"></i></span>
+                            <span> - - </span>
+                        </div>
+                        <div class="stat">
+                            <span>Humidity <i class="fas fa-water"></i></span>
+                            <span> - - </span>
+                        </div>
+                        <div class="stat">
+                            <span>Window Status</span>
+                            <span> - - </span>
                         </div>
                     </div>
-                    <div class="recommendation">
+                    <!-- <div class="recommendation">
                         <p>It's the perfect time for spraying!</p>
-                    </div>
+                    </div> -->
                 </div>
-                
+
                 <!-- Soil Stats -->
-                <div class="soil-stats card">
+                <!-- <div class="soil-stats card">
                     <div class="stat">
                         <span>20.5 °C</span>
                         <small>real-time temperature</small>
@@ -182,7 +190,7 @@
                         <span>97 kPa</span>
                         <small>real-time soil Moisture</small>
                     </div>
-                </div>
+                </div> -->
             </div>
         </main>
     </div>

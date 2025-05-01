@@ -21,6 +21,55 @@
 body {
     background-color: var(--bg);
     color: var(--text);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode {
+    --primary: #388E3C;
+    --primary-dark: #4CAF50;
+    --secondary: #FF9800;
+    --text: #E0E0E0;
+    --text-light: #BDBDBD;
+    --bg: #1E1E1E;
+    --card-bg: #2C2C2C;
+    --sidebar-bg: #37474F;
+    --sidebar-text: #E0E0E0;
+    --sidebar-text-light: rgba(224, 224, 224, 0.5);
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.5s ease, color 0.5s ease;
+
+}
+
+.weather {
+    color: var(--text);
+    transition: color 0.5s ease;
+
+}
+
+body.dark-mode .weather-day-title {
+    color: #ffffff !important;
+    transition: color 0.5s ease;
+}
+
+body.dark-mode .weather-date {
+    color: #DDD;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.weather .weather-label {
+    color: var(--text-light);
+    transition: color 0.5s ease;
+}
+
+.weather .weather-value {
+    color: var(--text);
+    transition: color 0.5s ease;
+}
+
+body.dark-mode .stats-grid .stat {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
 }
 
 .dashboard {
