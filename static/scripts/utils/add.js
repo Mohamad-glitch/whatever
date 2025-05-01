@@ -78,14 +78,19 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                 }
 
                 const data = await response.json();
-                const temp = data.temperature;
+                const temp = data.temperature; //10
                 const humidity = data.humidity;
                 const moisture = data.soil_moisture;
 
                 console.log(data);
-                document.getElementById('temp').textContent = `${temp}°C`;
-                document.getElementById('humidity').textContent = `${humidity}`;
-                document.getElementById('soil-moisture').textContent = `${moisture}`;
+                const temp_stat = document.getElementById('temp');
+                const hum_stat = document.getElementById('humidity');
+                const moi_stat = document.getElementById('soil-moisture');
+
+                temp_stat.textContent = `${temp} °C`;
+                hum_stat.textContent = `${humidity} %`;
+                moi_stat.textContent = `${moisture} %`;
+
 
 
             } catch (error) {
@@ -103,9 +108,12 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                 if (!response.ok) {
                     throw new Error(`Failed to fetch user data: ${response.statusText}`);
                 }
+
                 const a = await response.json();
-                const window= a.window;
-                document.getElementById('window').textContent = `${window}`;
+                console.log(a);
+                const window = a.status;
+                const window_status = document.getElementById('window');
+                window_status.textContent = `${window}`;
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
