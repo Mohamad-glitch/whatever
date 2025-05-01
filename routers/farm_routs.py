@@ -2,6 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter
 from fastapi import Depends, HTTPException
+from sqlalchemy import desc
 from sqlmodel import Session, SQLModel, create_engine, select
 
 from models.crop import Crop, CropCreate, CropNameUpdate
@@ -149,7 +150,12 @@ def read_farm_sensor_stats(session: SessionDep, current_user: User = Depends(get
     """Read sensor Stats for a specific farm."""
     farm_id = current_user.farm_id
 
-    farm_sensor = session.exec(select(Sensor).where(Sensor.farm_id == farm_id)).all()
+    farm_sensor = session.exec(
+        select(Sensor)
+        .where(Sensor.farm_id == farm_id)
+        .order_by(desc(Sensor.id))
+        .limit(1)
+    ).first()
     return farm_sensor
 
 # Window Show/Control code
@@ -184,18 +190,5 @@ def get_window_status_for_frontend(current_user: User = Depends(get_current_user
     return {"status": last_window_status["status"]}
 
 
-@router.post("/window/change")
-def user_change_window_status(
-        window_action: WindowStatus,
-        current_user: User = Depends(get_current_user)
-):
-    """
-    Receive user request to open or close the window.
-    """
-    if window_action.status not in ["open", "closed"]:
-        raise HTTPException(status_code=400, detail="Invalid window action.")
 
-    last_window_status["status"] = window_action.status
 
-    # Here you could also add permission checks if needed
-    return {"message": f"User requested to {window_action.status} the window."}

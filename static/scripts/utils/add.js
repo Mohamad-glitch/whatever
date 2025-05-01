@@ -59,13 +59,56 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
     `;
 
     // Add click event to update the stats card
-    card.addEventListener('click', () => {
+    card.addEventListener ('click', async() => {
         const statsCard = document.querySelector('.stats.card');
         if (statsCard) {
             statsCard.querySelector('h3').textContent = crop.name;
 
-   // NEW FETCH REQUEST FOR SENSOR DATA
             let id = card.id;
+            try {
+                const response = await fetch('https://whatever-qw7l.onrender.com/farms/sensorStats', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch user data: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const temp = data.temperature;
+                const humidity = data.humidity;
+                const moisture = data.soil_moisture;
+
+                console.log(data);
+                document.getElementById('temp').textContent = `${temp}°C`;
+                document.getElementById('humidity').textContent = `${humidity}`;
+                document.getElementById('soil-moisture').textContent = `${moisture}`;
+
+
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+
+            try {
+                const response = await fetch('https://whatever-qw7l.onrender.com/farms/window-status', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch user data: ${response.statusText}`);
+                }
+                const a = await response.json();
+                const window= a.window;
+                document.getElementById('window').textContent = `${window}`;
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
         }
     });
 
