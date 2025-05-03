@@ -1,4 +1,3 @@
-// main.js
 import { treeAnimation } from './utils/loading.js';
 import { setupAddCard } from './utils/add.js';
 import { initCalendar } from './utils/calender.js';
