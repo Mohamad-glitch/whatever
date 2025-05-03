@@ -11,6 +11,7 @@ from models.sensor import SensorCreate, Sensor, WindowStatus
 from models.user import User
 from routers.JWTtoken import get_current_user
 
+#hi
 router = APIRouter(
     prefix="/farms",
     tags=["farm"]
