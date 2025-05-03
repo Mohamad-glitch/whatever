@@ -4,36 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938a7275-0548-4240-b9fa-8f4e5500341e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/farm_database.db" beforeDir="false" afterPath="$PROJECT_DIR$/farm_database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/crop.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/crop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/sensor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/farm_routs.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/farm_routs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/user_routs.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/user_routs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/sensors_main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/sensors_main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/add.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/cardTransfer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/current_user.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/current_user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/data_simulation.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/edit_mode.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/edit_mode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/info.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/loading.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/progress.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/utils/toggle_theme.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/utils/toggle_theme.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/contents/sidebar.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/contents/sidebar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/utlis.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/utlis.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/whatever.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/whatever.html" afterDir="false" />
-    </list>
+    <list default="true" id="938a7275-0548-4240-b9fa-8f4e5500341e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
