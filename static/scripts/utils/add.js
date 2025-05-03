@@ -84,6 +84,7 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                 }
 
                 const data = await response.json();
+                console.log(data);
                 const temp = data.temperature; //10
                 const humidity = data.humidity;
                 const moisture = data.soil_moisture;
