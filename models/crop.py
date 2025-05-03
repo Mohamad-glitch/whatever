@@ -33,7 +33,5 @@ class CropUpdate(CropBase):
     growth_percent: Optional[int] = None
     harvest_ready: Optional[bool] = None
 
-
 class CropNameUpdate(BaseModel):
     name : str
-

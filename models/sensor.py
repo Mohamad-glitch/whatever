@@ -25,5 +25,6 @@ class SensorUpdate(SensorBase):
     soil_moisture: Optional[float] = None  # Changed to float
     humidity: Optional[float] = None
 
+
 class WindowStatus(BaseModel):
     status: str

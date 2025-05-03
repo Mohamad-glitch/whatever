@@ -24,7 +24,6 @@ connect_args = {"check_same_thread": False} # recommended by FastAPI docs
 engine = create_engine(sql_url, connect_args=connect_args)
 
 
-
 #creating database
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
@@ -37,7 +36,6 @@ def get_session():
 
 # we create an Annotated dependency SessionDep to simplify the rest of the code that will use this dependency.
 SessionDep = Annotated[Session, Depends(get_session)]
-
 
 
 # create the database on starting app startup
@@ -89,13 +87,10 @@ def create_crops(crops: CropCreate, session: SessionDep, current_user: User = De
 
     # Assign the farm ID to the crop
     db_crop = Crop(**crops.dict(), farm_id=farm.id)
-    print(db_crop.dict())
 
     session.add(db_crop)
     session.commit()
     session.refresh(db_crop)
-
-    print(db_crop.dict())
 
     return db_crop
 
@@ -115,12 +110,8 @@ def update_crop_name(crop_id: int, crop_data: CropNameUpdate,  session: SessionD
 
 @router.delete("/crops/{crop_id}")
 def delete_crops(crop_id: int, session: SessionDep, current_user: User = Depends(get_current_user)):
-    """Delete Crops Of Farm"""
-    crop = session.exec(select(Crop)
-                        .where(Crop.id == crop_id)
-                        .where(Crop.farm_id == current_user.farm_id)
-                        ).first()
-
+    """Delete Crops Of Farm """
+    crop = session.query(Crop).filter(Crop.id == crop_id).first()
     if not crop:
         raise HTTPException(status_code=404, detail="Crop not found")
 
@@ -144,7 +135,6 @@ def create_sensor_data(sensor_data: SensorCreate, session: SessionDep, current_u
     return sensor
 
 
-
 @router.get("/sensorStats")
 def read_farm_sensor_stats(session: SessionDep, current_user: User = Depends(get_current_user)):
     """Read sensor Stats for a specific farm."""
@@ -157,6 +147,7 @@ def read_farm_sensor_stats(session: SessionDep, current_user: User = Depends(get
         .limit(1)
     ).first()
     return farm_sensor
+
 
 # Window Show/Control code
 
@@ -188,6 +179,10 @@ def get_window_status_for_frontend(current_user: User = Depends(get_current_user
     Get the last known window status for the frontend (open/closed).
     """
     return {"status": last_window_status["status"]}
+
+
+
+
 
 
 

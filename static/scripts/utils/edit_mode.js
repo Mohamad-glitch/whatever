@@ -1,4 +1,4 @@
-let isEditMode = false;
+export let isEditMode = false;
 let deletedCards = [];
 let editedCards = new Map();
 
@@ -17,7 +17,7 @@ export function toggleEditMode() {
         });
     } else {
         // Exit edit mode
-        const confirmed = confirm("Confirm crop deletions and title edits?");
+        const confirmed = confirm("Confirm crop title edits?");
         if (confirmed) {
             saveEditedTitles();
         } else {

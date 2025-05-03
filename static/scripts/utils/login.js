@@ -12,9 +12,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-
-        console.log('Response status:', response.status);
-
+        
         if (!response.ok) {
             const errorText = await response.text();
             console.error('Error response:', errorText);
@@ -23,7 +21,6 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         }
 
         const responseData = await response.json();
-        console.log('Success:', responseData);
 
         // Save token to localStorage
         localStorage.setItem('authToken', responseData.token);
@@ -46,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (response.ok) {
-                console.log('Token validated. Auto-login successful.');
                 window.location.href = "https://whatever-qw7l.onrender.com/home";
             } else {
                 console.warn('Token invalid. Clearing token.');
@@ -55,5 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {
             console.error('Error validating token:', error);
         }
+    }
+    else {
+        alert('Please try again.');
     }
 });

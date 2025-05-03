@@ -4,10 +4,11 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
-    // const full_name = "Shlololol lol";
-    // const email = "email_11@malik";
-    // const password = "123";
 
+    if (!full_name || !email || !password || !confirmPassword) {
+        alert('Please fill in all fields.');
+        return;
+    }
     if (password !== confirmPassword) {
         alert('Passwords do not match.');
         return;
@@ -20,7 +21,7 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
             credentials: 'include',  
             body: JSON.stringify({ full_name, email, password })
         });
-
+        
         console.log('Response status:', response.status);
         if (response.redirected) {
             window.location.href = response.url;  // Redirect manually
@@ -34,7 +35,6 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         } else {
             const errorText = await response.text();
             console.log('Response body:', errorText);
-            alert('Registration failed. Please try again.');
         }
     } catch (error) {
         console.error('Error:', error);

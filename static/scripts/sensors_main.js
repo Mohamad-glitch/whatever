@@ -1,5 +1,5 @@
 import { initCalendar } from './utils/calender.js';
-import { loadCardsFromStorage, saveCardsToStorage } from './utils/cardTransfer.js';
+import { loadCardsFromStorage, saveCardsToStorage } from './utils/card_transfer';
 import { setupAddCard } from './utils/add.js';
 import { setupNotifications } from './utils/notifications.js'; // Import notifications
 

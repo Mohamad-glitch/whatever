@@ -60,7 +60,7 @@ def login():
 #create new user
 @router.post("/register")
 def register_user(user: UserCreate, session: SessionDep):
-    #check if the user already exiset
+    #check if the user already exist
     check_user = session.exec(select(User).where(User.email == user.email)).first()
     if  check_user:
         raise HTTPException(status_code=409, detail="User is already registered")
@@ -99,5 +99,3 @@ def show_user(session: SessionDep, current_user: User = Depends(get_current_user
 @router.get("/some-endpoint")
 def get_data():
     return {"message": "Hello, world!"}
-
-

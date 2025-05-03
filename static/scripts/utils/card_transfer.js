@@ -1,8 +1,8 @@
 let isLoadingFromStorage = false;
-
+let oneTimeReload = false;
 export async function saveCardsToStorage(cardData) {
     if (isLoadingFromStorage || !cardData) return;
-
+    oneTimeReload = true; // Set to true to trigger reload after saving
     try {
         const token = localStorage.getItem('authToken');
         if (!token) {
@@ -29,7 +29,11 @@ export async function saveCardsToStorage(cardData) {
             const errorData = await response.json().catch(() => ({}));
             throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
         }
-
+        
+        if (oneTimeReload) {
+            oneTimeReload = false;
+            location.reload();
+        }
         return await response.json();
     } catch (error) {
         console.error('Error saving card data:', error);

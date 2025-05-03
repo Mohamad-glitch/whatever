@@ -24,7 +24,7 @@
     background-repeat: repeat;
     pointer-events: none;
     z-index: 0;
-
+    
 }
 
 .sidebar > * {
@@ -40,7 +40,7 @@
 
 /* bricks style */
 /* .sidebar {
-    background:
+    background: 
         linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
         linear-gradient(to bottom, var(--primary-dark), var(--primary));
@@ -63,7 +63,7 @@
 
 .logo h1 i{
     margin-left: 8px;
-
+    
 }
 
 .logo p {
@@ -128,7 +128,7 @@
     background-color: transparent;
     pointer-events: none;
     cursor: default;
-}
+}   
 
 /* Calendar Styles */
 .sidebar-calendar {

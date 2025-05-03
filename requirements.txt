@@ -5,3 +5,7 @@ python-jose[cryptography]
 pyjwt
 python-multipart
 sqlalchemy
+openai
+dotenv
+starlette
+pydantic

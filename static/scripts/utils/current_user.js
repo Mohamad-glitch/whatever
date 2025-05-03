@@ -15,7 +15,7 @@ export async function updateUsername() {
         }
 
         const data = await response.json();
-        usernameElement.innerHTML = `<a href="#" id="username"><i class="fas fa-user"></i>${data.full_name}</a>`;
+        usernameElement.innerHTML = `<i class="fas fa-user"></i>${data.full_name}`;
 
     } catch (error) {
         console.error('Error fetching user data:', error);

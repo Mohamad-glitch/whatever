@@ -1,9 +1,7 @@
-import { saveCardsToStorage } from './cardTransfer.js';
-// import { isEditMode } from './edit_mode.js';
-
+import { saveCardsToStorage } from './card_transfer.js';
+import { isEditMode } from './edit_mode.js';
 export const MAX_CROPS = 4; // MAX_CROPS is exported
 let addCardBtn;
-let oneTimeReload = false;
 
 export function setupAddCard() {
     addCardBtn = document.getElementById('add-card');
@@ -16,7 +14,6 @@ export function setupAddCard() {
 
     addCardBtn.addEventListener('click', () => {
         const currentCrops = container.querySelectorAll('.card:not(.add-card)');
-        oneTimeReload = true;
         if (currentCrops.length >= MAX_CROPS) {
             addCardBtn.style.display = "none";
             return;
@@ -60,11 +57,14 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
     `;
 
     // Add click event to update the stats card
-    card.addEventListener('click', async () => {
+    card.addEventListener ('click', async() => {
+        if (isEditMode) return;
+
         const statsCard = document.querySelector('.stats.card');
         if (statsCard) {
             statsCard.querySelector('h3').textContent = crop.name;
 
+            let id = card.id;
             try {
                 const response = await fetch('https://whatever-qw7l.onrender.com/farms/sensorStats', {
                     method: 'GET',
@@ -72,25 +72,31 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     }
                 });
-
+        
                 if (!response.ok) {
                     throw new Error(`Failed to fetch user data: ${response.statusText}`);
                 }
-
+        
                 const data = await response.json();
-
+                const temp = data.temperature; //10
+                const humidity = data.humidity;
+                const moisture = data.soil_moisture;     
+                
+                console.log(data);
                 const temp_stat = document.getElementById('temp');
                 const hum_stat = document.getElementById('humidity');
                 const moi_stat = document.getElementById('soil-moisture');
 
-                if (temp_stat) temp_stat.textContent = `${data.temperature} °C`;
-                if (hum_stat) hum_stat.textContent = `${data.humidity} %`;
-                if (moi_stat) moi_stat.textContent = `${data.soil_moisture} %`;
+                temp_stat.textContent = `${temp} °C`;
+                hum_stat.textContent = `${humidity} %`;
+                moi_stat.textContent = `${moisture} %`;
+
+
+
             } catch (error) {
-                console.error('Error fetching sensor stats:', error);
+                console.error('Error fetching user data:', error);
             }
 
-            // Fetch window status
             try {
                 const response = await fetch('https://whatever-qw7l.onrender.com/farms/window-status', {
                     method: 'GET',
@@ -98,20 +104,18 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     }
                 });
-
+        
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch window status: ${response.statusText}`);
+                    throw new Error(`Failed to fetch user data: ${response.statusText}`);
                 }
 
-                const data = await response.json();
+                const a = await response.json();
+                console.log(a);
+                const window = a.status;   
                 const window_status = document.getElementById('window');
-                if (window_status) {
-                    window_status.textContent = `${data.status}`;
-                } else {
-                    console.warn("Element with ID 'window' not found.");
-                }
+                window_status.textContent = `${window}`; 
             } catch (error) {
-                console.error('Error fetching window status:', error);
+                console.error('Error fetching user data:', error);
             }
         }
     });
@@ -147,12 +151,8 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
             }
         }
     });
-
+    
     const title = card.querySelector('h3');
     title.focus();
-    // force reload to update the crop card
-    if (oneTimeReload) {
-        oneTimeReload = false;
-        window.requestAnimationFrame(() => location.reload());    }
     return card;
 }
