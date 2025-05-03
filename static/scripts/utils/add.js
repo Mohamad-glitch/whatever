@@ -1,4 +1,5 @@
 import { saveCardsToStorage } from './cardTransfer.js';
+// import { isEditMode } from './edit_mode.js';
 
 export const MAX_CROPS = 4; // MAX_CROPS is exported
 let addCardBtn;
@@ -60,6 +61,11 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
 
     // Add click event to update the stats card
     card.addEventListener ('click', async() => {
+
+        // if (isEditMode) {
+        //     return;
+        // }
+
         const statsCard = document.querySelector('.stats.card');
         if (statsCard) {
             statsCard.querySelector('h3').textContent = crop.name;
@@ -82,7 +88,6 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                 const humidity = data.humidity;
                 const moisture = data.soil_moisture;
 
-                console.log(data);
                 const temp_stat = document.getElementById('temp');
                 const hum_stat = document.getElementById('humidity');
                 const moi_stat = document.getElementById('soil-moisture');
@@ -110,7 +115,6 @@ function createCropCard(crop, container, id = `crop-${Date.now()}`, progress = 0
                 }
 
                 const a = await response.json();
-                console.log(a);
                 const window = a.status;
                 const window_status = document.getElementById('window');
                 window_status.textContent = `${window}`;
