@@ -5,9 +5,6 @@ python-jose[cryptography]
 pyjwt
 python-multipart
 sqlalchemy
-os
-json
-typing
 requests
 dotenv
 pydantic
