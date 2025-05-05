@@ -67,7 +67,7 @@ app.include_router(JWTtoken.router)
 @app.post("/chat_bot")
 def chat_bot_answer(prompt: ChatBot):
     headers = {
-        "Authorization": f"Bearer {API_KEY}",  # Set your API key as an env variable
+        "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
     }
 
@@ -81,14 +81,21 @@ def chat_bot_answer(prompt: ChatBot):
         ]
     }
 
-    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, data=json.dumps(data))
+    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=data)
 
     try:
+        response.raise_for_status()
         response_json = response.json()
+        if "choices" not in response_json:
+            return JSONResponse(status_code=500, content={"error": "No 'choices' in API response", "full_response": response_json})
+
         content = response_json["choices"][0]["message"]["content"]
-        return {"content": content}  # just return the assistant's message content
+        return {"content": content}
+
+    except requests.exceptions.RequestException as e:
+        return JSONResponse(status_code=500, content={"error": "Request failed", "details": str(e), "response_text": response.text})
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": "Failed to process response", "details": str(e)})
+        return JSONResponse(status_code=500, content={"error": "Failed to process response", "details": str(e), "response_text": response.text})
 
 
 @app.get("/", response_class=HTMLResponse)
