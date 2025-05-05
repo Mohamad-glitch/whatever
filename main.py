@@ -15,7 +15,11 @@ from starlette.staticfiles import StaticFiles
 from routers import JWTtoken
 from routers import farm_routs, user_routs
 
-
+#let the server gets the api key from the server(render)
+if os.getenv("RENDER") != "true":
+    from dotenv import load_dotenv
+    load_dotenv()
+API_KEY = os.getenv("gpt_api_key")
 
 class ChatBot(BaseModel):
     prompt : str
@@ -63,14 +67,6 @@ app.include_router(JWTtoken.router)
 # has brainrot
 @app.post("/chat_bot")
 def chat_bot_answer(prompt: ChatBot):
-    print("os.getenv(RENDER) = ", os.getenv("RENDER"))
-    if os.getenv("RENDER") != "true":
-        from dotenv import load_dotenv
-        print("in if statement")
-        load_dotenv()
-    print("os.getenv(gpt_api_key)", os.getenv("gpt_api_key"))
-    API_KEY = os.getenv("gpt_api_key")
-
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
