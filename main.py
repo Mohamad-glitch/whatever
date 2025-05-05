@@ -15,9 +15,12 @@ from starlette.staticfiles import StaticFiles
 from routers import JWTtoken
 from routers import farm_routs, user_routs
 
+print("os.getenv(RENDER) = ", os.getenv("RENDER"))
 if os.getenv("RENDER") != "true":
     from dotenv import load_dotenv
+    print("in if statement")
     load_dotenv()
+print("os.getenv(gpt_api_key)", os.getenv("gpt_api_key"))
 API_KEY = os.getenv("gpt_api_key")
 
 
