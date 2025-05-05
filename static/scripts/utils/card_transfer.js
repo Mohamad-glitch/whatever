@@ -2,7 +2,6 @@ let isLoadingFromStorage = false;
 let oneTimeReload = false;
 export async function saveCardsToStorage(cardData) {
     if (isLoadingFromStorage || !cardData) return;
-    oneTimeReload = true; // Set to true to trigger reload after saving
     try {
         const token = localStorage.getItem('authToken');
         if (!token) {

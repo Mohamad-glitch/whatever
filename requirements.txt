@@ -5,6 +5,10 @@ python-jose[cryptography]
 pyjwt
 python-multipart
 sqlalchemy
+os
+json
+typing
+requests
 dotenv
-starlette
 pydantic
+starlette
