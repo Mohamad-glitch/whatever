@@ -15,9 +15,10 @@ from starlette.staticfiles import StaticFiles
 from routers import JWTtoken
 from routers import farm_routs, user_routs
 
-load_dotenv()  # Load variables from .env
-# chat-bot api and connection
-API_KEY = os.getenv("gpt_api_key")
+if os.getenv("RENDER") != "true":
+    from dotenv import load_dotenv
+    load_dotenv()
+    API_KEY = os.getenv("gpt_api_key")
 
 
 class ChatBot(BaseModel):
