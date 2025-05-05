@@ -18,7 +18,7 @@ from routers import farm_routs, user_routs
 if os.getenv("RENDER") != "true":
     from dotenv import load_dotenv
     load_dotenv()
-    API_KEY = os.getenv("gpt_api_key")
+API_KEY = os.getenv("gpt_api_key")
 
 
 class ChatBot(BaseModel):
