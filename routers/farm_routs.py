@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException
 from sqlalchemy import desc
 from sqlmodel import Session, SQLModel, create_engine, select
 
+import main
 from models.crop import Crop, CropCreate, CropNameUpdate
 from models.farm import Farm, FarmPublic
 from models.sensor import SensorCreate, Sensor, WindowStatus
@@ -182,9 +183,13 @@ def get_window_status_for_frontend(current_user: User = Depends(get_current_user
     return {"status": last_window_status["status"]}
 
 
+@router.get("/photo_analysis")
+async def photo_analysis_result():
+    print("before")
+    result = await main.photo_analysis()
+    print("after")
 
-
-
+    return {"result": "whatever"}
 
 
 

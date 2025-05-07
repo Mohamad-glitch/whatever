@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from typing import Annotated
 
 import requests
@@ -23,6 +24,16 @@ API_KEY = os.getenv("gpt_api_key")
 
 class ChatBot(BaseModel):
     prompt : str
+
+#last result form the computer vision
+#create a variable that store the last result and update it when there is a new result
+
+
+# computer vision analyses output/ return
+async def photo_analysis():
+    time.sleep(10)
+    print("photo_analysis finished in main")
+    pass
 
 
 sql_file_name = "farm_database.db"
@@ -118,6 +129,8 @@ async def home():
 async def devs():
     """Whatever Page for devs"""
     return HTMLResponse(content=open("static/whatever.html").read())
+
+
 
 
 

@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="938a7275-0548-4240-b9fa-8f4e5500341e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/static/scripts/utils/chatbot.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/styles/contents/chatbot.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/scripts/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/farm_routs.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/farm_routs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +20,7 @@
         <option value="FastAPI main" />
         <option value="FastAPI test_main" />
         <option value="Python Script" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -105,7 +104,7 @@
       <workItem from="1746123982067" duration="2342000" />
       <workItem from="1746462841349" duration="4489000" />
       <workItem from="1746468131387" duration="3926000" />
-      <workItem from="1746651538388" duration="2016000" />
+      <workItem from="1746651538388" duration="5612000" />
     </task>
     <servers />
   </component>
