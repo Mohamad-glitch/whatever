@@ -185,7 +185,7 @@ def get_window_status_for_frontend(current_user: User = Depends(get_current_user
 
 @router.get("/photo_analysis")
 async def photo_analysis_result():
-    print("before")
+    print("before whatever")
     result = await main.photo_analysis()
     print("after")
 

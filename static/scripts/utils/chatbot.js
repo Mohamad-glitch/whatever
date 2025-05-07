@@ -66,15 +66,15 @@ function formatBotResponse(content) {
     return (
         '<div>' +
         content
-            .replace(/\*\*/g, '') // Remove all **bold markers**
+            .replace(/\*\*/g, '')
             .replace(/^### (.*)$/gm, '<h3>$1</h3>')
             .replace(/^---$/gm, '<hr>')
-            .replace(/^\- (.*?): (.*)$/gm, '<li>$1: $2</li>') // handle things like "- Roots: anchor plant"
+            .replace(/^\- (.*?): (.*)$/gm, '<li>$1: $2</li>')
             .replace(/^\- (.*)$/gm, '<li>$1</li>')
             .replace(/\n{2,}/g, '</ul><br><ul>')
-            .replace(/\n/g, '') // remove leftover line breaks
-            .replace(/<li>/, '<ul><li>') // start list
-            .replace(/<\/li>$/, '</li></ul>') + // end list
+            .replace(/\n/g, '')
+            .replace(/<li>/, '<ul><li>')
+            .replace(/<\/li>$/, '</li></ul>') +
         '</div>'
     );
 }

@@ -1,6 +1,7 @@
-export function setupNotifications(notificationButtonId) {
+export async function setupNotifications(notificationButtonId) {
+    console.log('Setting up notifications...');
+    const authToken = localStorage.getItem('authToken'); // Retrieve the auth token from local storage
     const notificationButton = document.getElementById(notificationButtonId);
-    
 
     const notificationBadge = document.createElement('span');
     const notificationDropdown = document.createElement('div');
@@ -11,8 +12,27 @@ export function setupNotifications(notificationButtonId) {
     notificationButton.appendChild(notificationBadge);
 
     notificationDropdown.className = 'notification-dropdown';
-    notificationDropdown.innerHTML = '<div class="notification-item">There are no notifications</div>'; // Default message
+    notificationDropdown.innerHTML = '<div class="notification-item">Loading notifications...</div>'; // Default message
     notificationButton.parentNode.appendChild(notificationDropdown);
+
+    // Fetch notifications from the server
+    const notifications = await fetchNotifications(authToken);
+
+    // Clear default message and populate notifications
+    notificationDropdown.innerHTML = ''; // Clear loading message
+    if (notifications.length === 0) {
+        notificationDropdown.innerHTML = '<div class="notification-item">There are no notifications</div>';
+    } else {
+        notifications.forEach(message => {
+            const notificationItem = document.createElement('div');
+            notificationItem.className = 'notification-item';
+            notificationItem.textContent = message;
+            notificationDropdown.appendChild(notificationItem);
+        });
+
+        notificationBadge.textContent = notifications.length;
+        notificationBadge.style.display = 'block';
+    }
 
     notificationButton.addEventListener('click', () => {
         if (notificationDropdown.classList.contains('open')) {
@@ -42,4 +62,27 @@ export function setupNotifications(notificationButtonId) {
     }
 
     return { addNotification };
+}
+
+async function fetchNotifications(authToken) {
+    try {
+        const response = await fetch('https://whatever-qw7l.onrender.com/farms/photo_analysis', {
+            method: 'GET',
+            headers: {
+                // 'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching notifications: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const notifications = data.result; // Extract the 'result' field
+        return Array.isArray(notifications) ? notifications : [notifications]; // Ensure it's an array
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
 }
