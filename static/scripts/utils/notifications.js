@@ -14,10 +14,10 @@ async function fetchNotifications(authToken) {
 
         const data = await response.json();
         const notifications = data.result; // Extract the 'result' field
-        return Array.isArray(notifications) ? notifications : [notifications]; // Ensure it's an array
+        return notifications; // Return the object directly
     } catch (error) {
         console.error(error);
-        return [];
+        return {};
     }
 }
 
@@ -43,17 +43,17 @@ export async function setupNotifications(notificationButtonId) {
 
     // Clear default message and populate notifications
     notificationDropdown.innerHTML = ''; // Clear loading message
-    if (notifications.length === 0) {
+    if (Object.keys(notifications).length === 0) {
         notificationDropdown.innerHTML = '<div class="notification-item">There are no notifications</div>';
     } else {
-        notifications.forEach(notification => {
+        Object.keys(notifications).forEach(type => {
             const notificationItem = document.createElement('div');
             notificationItem.className = 'notification-item';
-            notificationItem.textContent = notification; // Assuming each notification is a string
+            notificationItem.textContent = type; // Display only the key (type)
             notificationDropdown.appendChild(notificationItem);
         });
 
-        notificationBadge.textContent = notifications.length;
+        notificationBadge.textContent = Object.keys(notifications).length;
         notificationBadge.style.display = 'block';
     }
 
@@ -66,6 +66,10 @@ export async function setupNotifications(notificationButtonId) {
             notificationDropdown.classList.add('open');
             notificationDropdown.style.maxHeight = '250px'; // Expand the dropdown
             notificationDropdown.style.opacity = '1'; // Fade in
+
+            // Reset the notification counter
+            notificationBadge.textContent = '0';
+            notificationBadge.style.display = 'none';
         }
     });
 
@@ -86,3 +90,8 @@ export async function setupNotifications(notificationButtonId) {
 
     return { addNotification };
 }
+
+setTimeout(() => {
+    console.log('Fetching notifications every 30 seconds...');
+}, 1000 * 30)
+

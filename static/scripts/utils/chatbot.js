@@ -61,7 +61,7 @@ export function setupChatbot() {
             console.error('Error fetching chatbot response:', error);
     
             // Replace loading message with an error message
-            loadingElement.textContent = 'Error fetching response. Please try again.';
+            loadingElement.innerHTML = '<i class="fas fa-user"></i>Error fetching response. Please try again.';
             loadingElement.classList.remove('loading');
         }
     });
