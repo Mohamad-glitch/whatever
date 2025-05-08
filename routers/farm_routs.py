@@ -200,7 +200,7 @@ async def photo_analysis_result():
     print("Starting photo analysis...")
 
     # Load the image from the given file path
-    image = cv2.imread(r"C:\Users\mshlo\OneDrive\Desktop\OIP (2).jpg")
+    image = cv2.imread("./OIP (2).jpg")
     if image is None:
         print("Error: Cannot open image.")
         return {"error": "Image not found"}
