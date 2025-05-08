@@ -7,6 +7,8 @@ from sqlalchemy import desc
 from sqlmodel import Session, SQLModel, create_engine, select
 
 from collections import Counter
+
+from starlette.concurrency import run_in_threadpool
 from ultralytics import YOLO
 import cv2
 
@@ -195,8 +197,7 @@ def get_window_status_for_frontend(current_user: User = Depends(get_current_user
     return {"status": last_window_status["status"]}
 
 
-@router.get("/photo_analysis")
-async def photo_analysis_result():
+def analyze_photo():
     print("Starting photo analysis...")
 
     # Load the image from the given file path
@@ -238,6 +239,12 @@ async def photo_analysis_result():
 
     print("Finished photo analysis.")
     return {"result": dict(final_counts)}
+
+@router.get("/photo_analysis")
+async def photo_analysis_result():
+    # Run the analysis in a thread and await the result
+    result = await run_in_threadpool(analyze_photo)
+    return result
 
 
 
