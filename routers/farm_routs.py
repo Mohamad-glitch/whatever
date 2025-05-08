@@ -4,6 +4,8 @@ from fastapi import APIRouter
 from fastapi import Depends, HTTPException
 from sqlalchemy import desc
 from sqlmodel import Session, SQLModel, create_engine, select
+from computer_vision.AI import run_detection_for_one_minute
+from apscheduler.schedulers.background import BackgroundScheduler
 
 import main
 from models.crop import Crop, CropCreate, CropNameUpdate
@@ -39,6 +41,9 @@ def get_session():
 # we create an Annotated dependency SessionDep to simplify the rest of the code that will use this dependency.
 SessionDep = Annotated[Session, Depends(get_session)]
 
+# AI things
+scheduler = BackgroundScheduler()
+latest_detection_result = None
 
 # create the database on starting app startup
 @router.on_event("startup")
@@ -185,11 +190,30 @@ def get_window_status_for_frontend(current_user: User = Depends(get_current_user
 
 @router.get("/photo_analysis")
 async def photo_analysis_result():
-    print("before whatever")
-    result = await main.photo_analysis()
-    print("after")
+    global latest_detection_result
 
-    return {"result": "whatever"}
+    # If there is already a detection result, return it
+    if latest_detection_result is not None:
+        return {"result": latest_detection_result}
+
+    # If no result yet, run detection on the spot
+    print("No previous result found. Running detection now...")
+
+    # Call your detection function
+    result = await run_detection_for_one_minute()  # assuming it's async
+
+    # Save it so next time it doesn't need to run again
+    latest_detection_result = result
+
+    return {"result": result}
 
 
+def scheduled_job():
+    global latest_detection_result
+    print("Running scheduled detection...")
+    import asyncio
+    result = asyncio.run(run_detection_for_one_minute())
+    latest_detection_result = result  # Save the latest result
 
+scheduler.add_job(scheduled_job, 'interval', minutes=1)
+scheduler.start()
