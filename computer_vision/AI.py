@@ -29,14 +29,14 @@ detection_results = []
 async def run_detection_for_one_minute():
         global detection_results
 
-        #camira connection 
+        #camira connection
         RTSP_URL = "rtsp://username:password@192.168.1.100:554/stream"
 
         # Load the YOLOv8n pretrained model
         pretrained_model = YOLO("yolov8n.pt")
 
         # Load your custom-trained YOLO model
-        custom_model = YOLO("./weights/best.pt")
+        custom_model = YOLO("/opt/render/project/src/weights/best.pt")
 
         # Open the RTSP stream
         cap = cv2.VideoCapture(0)

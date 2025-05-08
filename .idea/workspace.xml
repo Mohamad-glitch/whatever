@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="938a7275-0548-4240-b9fa-8f4e5500341e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/computer_vision/AI.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/computer_vision/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/farm_routs.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/farm_routs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/computer_vision/AI.py" beforeDir="false" afterPath="$PROJECT_DIR$/computer_vision/AI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +152,7 @@
       <workItem from="1746468131387" duration="3926000" />
       <workItem from="1746651538388" duration="7966000" />
       <workItem from="1746695732475" duration="4515000" />
-      <workItem from="1746725371499" duration="2564000" />
+      <workItem from="1746725371499" duration="3262000" />
     </task>
     <servers />
   </component>
