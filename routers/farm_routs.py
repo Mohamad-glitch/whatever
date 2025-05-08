@@ -1,3 +1,4 @@
+import time
 from typing import Annotated
 
 from fastapi import APIRouter
@@ -5,8 +6,11 @@ from fastapi import Depends, HTTPException
 from sqlalchemy import desc
 from sqlmodel import Session, SQLModel, create_engine, select
 
+from collections import Counter
+from ultralytics import YOLO
+import cv2
 
-from computer_vision import shared_data
+import main
 from models.crop import Crop, CropCreate, CropNameUpdate
 from models.farm import Farm, FarmPublic
 from models.sensor import SensorCreate, Sensor, WindowStatus
@@ -39,6 +43,13 @@ def get_session():
 
 # we create an Annotated dependency SessionDep to simplify the rest of the code that will use this dependency.
 SessionDep = Annotated[Session, Depends(get_session)]
+
+#AI things
+#----------------------------------------------------------------------------------------------------------------------------------
+pretrained_model = YOLO("yolov8n.pt")
+custom_model = YOLO("best.pt")
+
+#----------------------------------------------------------------------------------------------------------------------------------
 
 
 # create the database on starting app startup
@@ -186,8 +197,50 @@ def get_window_status_for_frontend(current_user: User = Depends(get_current_user
 
 @router.get("/photo_analysis")
 async def photo_analysis_result():
-    print("Sending latest detection result...")
-    return {"result": shared_data.latest_detection["detected"]}
+    print("Starting photo analysis...")
+
+    # Load the image from the given file path
+    image = cv2.imread(r"C:\Users\mshlo\OneDrive\Desktop\OIP (2).jpg")
+    if image is None:
+        print("Error: Cannot open image.")
+        return {"error": "Image not found"}
+
+    # Run the analysis
+    try:
+        results_pretrained = pretrained_model.predict(image, verbose=False)
+    except Exception as e:
+        print(f"Error with pretrained model: {e}")
+        return {"error": f"Error with pretrained model: {e}"}
+
+    try:
+        results_custom = custom_model.predict(image, verbose=False)
+    except Exception as e:
+        print(f"Error with custom model: {e}")
+        return {"error": f"Error with custom model: {e}"}
+
+    # Get class names from both models
+    class_ids_pretrained = results_pretrained[0].boxes.cls.int().tolist()
+    names_pretrained = [pretrained_model.names[cid] for cid in class_ids_pretrained]
+
+    class_ids_custom = results_custom[0].boxes.cls.int().tolist()
+    names_custom = [custom_model.names[cid] for cid in class_ids_custom]
+
+    # Combine the names from both models
+    combined_names = names_pretrained + names_custom
+
+    # Count occurrences of each detected class
+    final_counts = Counter(combined_names)
+
+    if final_counts:
+        output_str = ', '.join([f"{v} {k}" for k, v in final_counts.items()])
+    else:
+        output_str = 'none'
+
+    print("Finished photo analysis.")
+    return {"result": dict(final_counts)}
+
+
+
 
 
 

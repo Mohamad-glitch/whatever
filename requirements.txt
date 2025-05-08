@@ -10,4 +10,3 @@ dotenv
 pydantic
 starlette
 ultralytics
-apscheduler

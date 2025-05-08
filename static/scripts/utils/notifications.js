@@ -1,3 +1,26 @@
+async function fetchNotifications(authToken) {
+    try {
+        const response = await fetch('https://whatever-qw7l.onrender.com/farms/photo_analysis', {
+            method: 'GET',
+            headers: {
+                // 'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching notifications: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const notifications = data.result; // Extract the 'result' field
+        return Array.isArray(notifications) ? notifications : [notifications]; // Ensure it's an array
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
 export async function setupNotifications(notificationButtonId) {
     console.log('Setting up notifications...');
     const authToken = localStorage.getItem('authToken'); // Retrieve the auth token from local storage
@@ -23,10 +46,10 @@ export async function setupNotifications(notificationButtonId) {
     if (notifications.length === 0) {
         notificationDropdown.innerHTML = '<div class="notification-item">There are no notifications</div>';
     } else {
-        notifications.forEach(message => {
+        notifications.forEach(notification => {
             const notificationItem = document.createElement('div');
             notificationItem.className = 'notification-item';
-            notificationItem.textContent = message;
+            notificationItem.textContent = notification; // Assuming each notification is a string
             notificationDropdown.appendChild(notificationItem);
         });
 
@@ -62,27 +85,4 @@ export async function setupNotifications(notificationButtonId) {
     }
 
     return { addNotification };
-}
-
-async function fetchNotifications(authToken) {
-    try {
-        const response = await fetch('https://whatever-qw7l.onrender.com/farms/photo_analysis', {
-            method: 'GET',
-            headers: {
-                // 'Authorization': `Bearer ${authToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error fetching notifications: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const notifications = data.result; // Extract the 'result' field
-        return Array.isArray(notifications) ? notifications : [notifications]; // Ensure it's an array
-    } catch (error) {
-        console.error(error);
-        return [];
-    }
 }

@@ -7,15 +7,24 @@ import { fetchWeather } from './utils/weather.js';
 import { setupNotifications } from './utils/notifications.js';
 import { updateUsername } from './utils/current_user.js';
 import { themeToggle } from './utils/toggle_theme.js';
-import { setupChatbot } from './utils/chatbot.js'; // Import the chatbot setup function
+import { setupChatbot } from './utils/chatbot.js';
 
-treeAnimation();
+if (!localStorage.getItem('treeAnimationShown')) {
+    treeAnimation();
+    localStorage.setItem('treeAnimationShown', 'true'); 
+}
+else{
+    const dashboard = document.querySelector('.dashboard'); 
+    if (dashboard) {
+        dashboard.classList.add('loaded');
+    }
+}
 document.addEventListener('DOMContentLoaded', function () {
     updateUsername();
     initCalendar();
     fetchWeather("Irbid");
-
-        // Set up edit button
+    
+    // Set up edit button
     const editButton = document.getElementById('edit');
     if (editButton) {
         editButton.addEventListener('click', toggleEditMode);
@@ -29,6 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
     setupChatbot();
 
     themeToggle('settings');
-
+    
     setupNotifications('noti');
 });

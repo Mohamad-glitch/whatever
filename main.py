@@ -16,24 +16,13 @@ from starlette.staticfiles import StaticFiles
 from routers import JWTtoken
 from routers import farm_routs, user_routs
 
-#let the server gets the api key from the server(render)
-if os.getenv("RENDER") != "true":
-    from dotenv import load_dotenv
-    load_dotenv()
+load_dotenv()  # Load variables from .env
+# chat-bot api and connection
 API_KEY = os.getenv("gpt_api_key")
+
 
 class ChatBot(BaseModel):
     prompt : str
-
-#last result form the computer vision
-#create a variable that store the last result and update it when there is a new result
-
-
-# computer vision analyses output/ return
-async def photo_analysis():
-    time.sleep(10)
-    print("photo_analysis finished in main")
-    pass
 
 
 sql_file_name = "farm_database.db"
@@ -79,7 +68,7 @@ app.include_router(JWTtoken.router)
 @app.post("/chat_bot")
 def chat_bot_answer(prompt: ChatBot):
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": f"Bearer {API_KEY}",  # Set your API key as an env variable
         "Content-Type": "application/json"
     }
 
@@ -93,21 +82,14 @@ def chat_bot_answer(prompt: ChatBot):
         ]
     }
 
-    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=data)
+    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, data=json.dumps(data))
 
     try:
-        response.raise_for_status()
         response_json = response.json()
-        if "choices" not in response_json:
-            return JSONResponse(status_code=500, content={"error": "No 'choices' in API response", "full_response": response_json})
-
         content = response_json["choices"][0]["message"]["content"]
-        return {"content": content}
-
-    except requests.exceptions.RequestException as e:
-        return JSONResponse(status_code=500, content={"error": "Request failed", "details": str(e), "response_text": response.text})
+        return {"content": content}  # just return the assistant's message content
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": "Failed to process response", "details": str(e), "response_text": response.text})
+        return JSONResponse(status_code=500, content={"error": "Failed to process response", "details": str(e)})
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -130,8 +112,14 @@ async def devs():
     """Whatever Page for devs"""
     return HTMLResponse(content=open("static/whatever.html").read())
 
+#last result form the computer vision
+#create a variable that store the last result and update it when there is a new result
 
 
-
+# computer vision analyses output/ return
+async def photo_analysis():
+    time.sleep(10)
+    print("photo_analysis finished in main")
+    pass
 
 
