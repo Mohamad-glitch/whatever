@@ -1,7 +1,20 @@
-CANCEL IN REMOVE??? wtf it should be working fine... need server so later... :: 1 HOUR WASTED HERE
+- chat bot -- Secondary - shlool
 
-LOADING ANIMATION ONCE PER SESSION :: DONE
+- login page -- Primary (SHLOLOL)
+ 
+- register page -- Primary (SHLOLOL) :: DONE
 
-CHATBOT LOADING animation :: DONE
+- data storing -- Primary
 
-GET ALL NOTIFICATION INTO THE LIST :: DONE
+- search -- Secondary
+
+- notifications -- Primary :: half DONE
+
+- edit confirmations -- Primary
+
+- index page
+|- swap the data on temp, soil moisture % for each card -- Primary 
+|-- animation entering the page
+
+- Sensors page -- Primary
+|- sensors for each card -- Primary

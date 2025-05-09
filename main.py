@@ -2,12 +2,11 @@ import json
 import os
 import time
 from typing import Annotated
+from openai import OpenAI
 
-import requests
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sqlmodel import Session, SQLModel, create_engine
 from starlette.responses import HTMLResponse
@@ -19,6 +18,11 @@ from routers import farm_routs, user_routs
 load_dotenv()  # Load variables from .env
 # chat-bot api and connection
 API_KEY = os.getenv("gpt_api_key")
+
+client = OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+  api_key=f"{API_KEY}",
+)
 
 
 class ChatBot(BaseModel):
@@ -67,29 +71,20 @@ app.include_router(JWTtoken.router)
 # has brainrot
 @app.post("/chat_bot")
 def chat_bot_answer(prompt: ChatBot):
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",  # Set your API key as an env variable
-        "Content-Type": "application/json"
-    }
-
-    data = {
-        "model": "qwen/qwen3-4b:free",
-        "messages": [
+    completion = client.chat.completions.create(
+        extra_body={},
+        model="deepseek/deepseek-prover-v2:free",
+        messages=[
             {
                 "role": "user",
-                "content": prompt.prompt
+                "content": prompt.prompt  # ⚠️ Access the actual string
             }
         ]
-    }
+    )
 
-    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, data=json.dumps(data))
+    answer = completion.choices[0].message.content
 
-    try:
-        response_json = response.json()
-        content = response_json["choices"][0]["message"]["content"]
-        return {"content": content}  # just return the assistant's message content
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"error": "Failed to process response", "details": str(e)})
+    return {"answer": answer}
 
 
 @app.get("/", response_class=HTMLResponse)

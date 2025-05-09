@@ -1,9 +1,9 @@
-.dashboard {
-    opacity: 0;
-    transition: opacity 1s ease-in;
-    z-index: 0;
-    position: relative;
+.dashboard{
+opacity: 1;
+transition: opacity 0.5s ease-in;
+z-index: 0;
+position: relative;
 }
 .dashboard.loaded {
-    opacity: 1;
+opacity: 1;
 }

@@ -4,21 +4,11 @@ import { initCalendar } from './utils/calender.js';
 import { loadCardsFromStorage } from './utils/card_transfer.js';
 import { toggleEditMode } from './utils/edit_mode.js';
 import { fetchWeather } from './utils/weather.js';
-// import { setupNotifications } from './utils/notifications.js';
+import { setupNotifications } from './utils/notifications.js';
 import { updateUsername } from './utils/current_user.js';
 import { themeToggle } from './utils/toggle_theme.js';
-import { setupChatbot } from './utils/chatbot.js';
+import { setupChatbot } from './utils/chatbot.js'; // Import the chatbot setup function
 
-if (!localStorage.getItem('treeAnimationShown')) {
-    treeAnimation();
-    localStorage.setItem('treeAnimationShown', 'true');
-}
-else{
-    const dashboard = document.querySelector('.dashboard');
-    if (dashboard) {
-        dashboard.classList.add('loaded');
-    }
-}
 document.addEventListener('DOMContentLoaded', function () {
     updateUsername();
     initCalendar();
@@ -34,9 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const { createCropCard, MAX_CROPS, addCardBtn } = setupAddCard();
     loadCardsFromStorage(createCropCard, MAX_CROPS, addCardBtn);
 
+    themeToggle('settings');
+    const { addNotification } = setupNotifications('noti');
+    setTimeout(() => addNotification('KYS'), 3000);
+
     // Initialize chatbot
     setupChatbot();
-
-    themeToggle('settings');
-
 });
